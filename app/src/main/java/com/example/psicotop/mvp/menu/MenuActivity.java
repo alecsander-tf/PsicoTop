@@ -1,4 +1,4 @@
-package com.example.psicotop;
+package com.example.psicotop.mvp.menu;
 
 import android.os.Bundle;
 
@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.psicotop.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;

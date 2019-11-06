@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.psicotop.RegistroActivity">
+    tools:context=".mvp.registro.RegistroActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -54,14 +54,14 @@
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Usuário" />
+                android:text="Email" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textEmailAddress" />
 
             <TextView
                 android:id="@+id/tvNome"
@@ -79,10 +79,22 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Sobrenome" />
+
+            <EditText
+                android:id="@+id/etSobrenome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Senha" />
 
             <EditText
-                android:id="@+id/editText7"
+                android:id="@+id/etSenha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -114,7 +126,7 @@
                 android:inputType="textPersonName" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btnRegistrar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryLight"
