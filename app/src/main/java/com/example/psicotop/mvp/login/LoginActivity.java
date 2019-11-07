@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
+import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Usuario;
 import com.example.psicotop.mvp.registro.RegistroActivity;
 import com.google.firebase.FirebaseApp;
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     private Usuario criarUsuario(){
 
-        Usuario usuario = new Usuario();
+        Usuario usuario = new Paciente();
 
         usuario.setEmail(etEmail.getText().toString());
         usuario.setSenha(etSenha.getText().toString());

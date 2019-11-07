@@ -1,26 +1,27 @@
 package com.example.psicotop.banco;
 
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.example.psicotop.modal.Paciente;
+import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -30,12 +31,83 @@ public class Post implements IPost{
     private DatabaseReference myRef;
     private FirebaseDatabase mDatabase;
 
-    public Post(){
+    static private List<Usuario> usuarios = new ArrayList<>();
+    static private List<Usuario> psicologos = new ArrayList<>();
 
+    public Post(){
 
         mDatabase = FirebaseDatabase.getInstance();
         myRef = mDatabase.getReference();
         myAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public boolean psicologoExiste(String email){
+
+        myRef.child("Usuario").child("Psicologo").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    if (!psicologos.contains(child.getValue(Psicologo.class))){
+                        psicologos.add(child.getValue(Psicologo.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Usuario usuario = dataSnapshot.getValue(Usuario.class);
+
+                if (!psicologos.contains(dataSnapshot.getValue(Psicologo.class))){
+                    psicologos.add(dataSnapshot.getValue(Psicologo.class));
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                Psicologo psicologo = dataSnapshot.getValue(Psicologo.class);
+
+                if (!psicologos.contains(dataSnapshot.getValue(Psicologo.class))){
+                    psicologos.add(dataSnapshot.getValue(Psicologo.class));
+                }
+
+                usuarios.add(usuario);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                psicologos.remove(dataSnapshot.getValue(Psicologo.class));
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        for (Usuario psicologo : psicologos){
+            if (email.equals(psicologo.getEmail())){
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
     public void registrarUsuario(final Usuario usuario, final IPostCallback callback) {
@@ -44,8 +116,15 @@ public class Post implements IPost{
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
 
-                    DatabaseReference usuarioRef = myRef.child("Usuario").push();
-                    usuarioRef.setValue(usuario);
+                    if (usuario instanceof Paciente){
+                        DatabaseReference usuarioRef = myRef.child("Usuario").child("Paciente").push();
+                        usuarioRef.setValue(usuario);
+                        usuarios.add(usuario);
+                    }else {
+                        DatabaseReference usuarioRef = myRef.child("Usuario").child("Psicologo").push();
+                        usuarioRef.setValue(usuario);
+                        psicologos.add(usuario);
+                    }
 
                     verificarEmail();
 
@@ -54,8 +133,6 @@ public class Post implements IPost{
                 }else {
                     callback.onError(task.getException().getMessage());
                 }
-
-
 
             }
         });
@@ -73,6 +150,11 @@ public class Post implements IPost{
                 }
             }
         });
+    }
+
+    @Override
+    public void verificarUsuario(final IPostListCallback callback) {
+        DatabaseReference usuarioRefmyRef = myRef.child("Usuario").child("Psicologo");
     }
 
     public void loginUsuario(Usuario u, final IPostCallback callback){

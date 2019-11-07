@@ -1,9 +1,6 @@
 package com.example.psicotop.mvp.login;
 
-import android.content.Intent;
-
 import com.example.psicotop.banco.IPost;
-import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Usuario;
 import com.example.psicotop.mvp.menu.MenuActivity;
 

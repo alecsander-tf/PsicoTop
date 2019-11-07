@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PsicoTop</string>
+    <string-array name="array_tiposUsuarios">
+        <item>Paciente</item>
+        <item>Psicólogo</item>
+    </string-array>
+
 </resources>
