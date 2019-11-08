@@ -30,10 +30,19 @@ public class Post implements IPost{
     private DatabaseReference myRef;
     private FirebaseDatabase mDatabase;
 
-    private static ChildEventListener childEventListener;
+    private static ChildEventListener psicologoChildEventListener;
+    private static ChildEventListener pacienteChildEventListener;
 
-    static private List<Usuario> usuarios = new ArrayList<>();
+    static private Usuario currentUserLogged;
+    static private List<Usuario> pacientes = new ArrayList<>();
     static private List<Usuario> psicologos = new ArrayList<>();
+
+    private DatabaseReference psicologoRef;
+    private DatabaseReference pacienteRef;
+
+    public Usuario getCurrentUserLogged(){
+        return currentUserLogged;
+    }
 
     public Post(){
 
@@ -41,11 +50,47 @@ public class Post implements IPost{
         myRef = mDatabase.getReference();
         myAuth = FirebaseAuth.getInstance();
 
-        DatabaseReference psicologoRef = myRef.child("Usuario").child("Psicologo");
+        psicologoRef = myRef.child("Usuario").child("Psicologo");
+        pacienteRef = myRef.child("Usuario").child("Paciente");
 
-        if (childEventListener == null) {
+        if (pacienteChildEventListener == null){
 
-            childEventListener = psicologoRef.addChildEventListener(new ChildEventListener() {
+            pacienteChildEventListener = pacienteRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    Usuario u = dataSnapshot.getValue(Paciente.class);
+
+                    if (!pacientes.contains(u)) {
+                        pacientes.add(u);
+                    }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+        if (psicologoChildEventListener == null) {
+
+            psicologoChildEventListener = psicologoRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -86,6 +131,13 @@ public class Post implements IPost{
     }
 
     @Override
+    public void alterarPaciente(Paciente paciente) {
+
+        String id = paciente.getId();
+        pacienteRef.child(id).setValue(paciente);
+    }
+
+    @Override
     public boolean psicologoExiste(String email){
 
         for (Usuario psicologo : psicologos){
@@ -106,10 +158,12 @@ public class Post implements IPost{
 
                     if (usuario instanceof Paciente){
                         DatabaseReference usuarioRef = myRef.child("Usuario").child("Paciente").push();
+                        usuario.setId(usuarioRef.getKey());
                         usuarioRef.setValue(usuario);
-                        usuarios.add(usuario);
+                        pacientes.add(usuario);
                     }else {
                         DatabaseReference usuarioRef = myRef.child("Usuario").child("Psicologo").push();
+                        usuario.setId(usuarioRef.getKey());
                         usuarioRef.setValue(usuario);
                         psicologos.add(usuario);
                     }
@@ -151,6 +205,19 @@ public class Post implements IPost{
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+
+                    for (Usuario usuario : psicologos){
+                        if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
+                            currentUserLogged = usuario;
+                        }
+                    }
+
+                    for (Usuario usuario : pacientes){
+                        if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
+                            currentUserLogged = usuario;
+                        }
+                    }
+
                     Log.d(TAG, "logado");
                     callback.onLoaded("Sucesso");
                 }else {
@@ -162,29 +229,6 @@ public class Post implements IPost{
             }
         });
 
-    }
-
-    public void postUser(Usuario usuario){
-
-        /*myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    //Getting the data from snapshot
-
-                    postSnapshot.getValue();
-                    Usuario u = dataSnapshot.getValue(Usuario.class);
-
-                    //Adding it to a string
-                    String string = "Nome: " + u.getNome();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                String string = "Erro";
-            }
-        });*/
     }
 }
 

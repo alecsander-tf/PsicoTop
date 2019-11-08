@@ -4,6 +4,10 @@ public class Paciente extends Usuario{
 
     private String emailPsicologo;
 
+    public Paciente(){
+
+    }
+
     public String getEmailPsicologo() {
         return emailPsicologo;
     }

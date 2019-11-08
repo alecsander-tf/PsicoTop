@@ -1,5 +1,6 @@
 package com.example.psicotop.banco;
 
+import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Usuario;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public interface IPost {
         void onError(String msg);
     }
 
+    Usuario getCurrentUserLogged();
+
+    void alterarPaciente(Paciente p);
     boolean psicologoExiste(String email);
     void verificarUsuario(IPostListCallback callback);
     void loginUsuario(String email, String senha, IPostCallback callback);
