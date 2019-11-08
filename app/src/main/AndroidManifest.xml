@@ -21,7 +21,8 @@
 
         </activity>
 
-        <activity android:name=".mvp.registro.RegistroActivity">
+        <activity android:name=".mvp.registro.RegistroActivity"
+            android:parentActivityName=".mvp.login.LoginActivity">
 
         </activity>
 

@@ -11,7 +11,7 @@ public interface LoginContract {
 
     interface UserActionsListener{
 
-        void login(Usuario usuario);
+        void login(String email, String senha);
 
         void abrirActivity(Class<?> arg);
     }

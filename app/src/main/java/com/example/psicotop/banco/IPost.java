@@ -18,7 +18,7 @@ public interface IPost {
 
     boolean psicologoExiste(String email);
     void verificarUsuario(IPostListCallback callback);
-    void loginUsuario(Usuario u, IPostCallback callback);
+    void loginUsuario(String email, String senha, IPostCallback callback);
     void registrarUsuario(Usuario u, IPostCallback callback);
 
 }

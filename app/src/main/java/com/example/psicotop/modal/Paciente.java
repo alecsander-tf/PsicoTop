@@ -2,17 +2,17 @@ package com.example.psicotop.modal;
 
 public class Paciente extends Usuario{
 
-    private Psicologo psicologo;
+    private String emailPsicologo;
 
-    public Paciente(){
-
+    public String getEmailPsicologo() {
+        return emailPsicologo;
     }
 
-    public Psicologo getPsicologo() {
-        return psicologo;
+    public void setEmailPsicologo(String emailPsicologo) {
+        this.emailPsicologo = emailPsicologo;
     }
 
-    public void setPsicologo(Psicologo psicologo) {
-        this.psicologo = psicologo;
+    public Paciente(String emailPsicologo){
+        this.emailPsicologo = emailPsicologo;
     }
 }

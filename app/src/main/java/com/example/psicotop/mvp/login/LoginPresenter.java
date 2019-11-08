@@ -15,9 +15,9 @@ public class LoginPresenter implements LoginContract.UserActionsListener{
     }
 
     @Override
-    public void login(Usuario usuario) {
+    public void login(String email, String senha) {
 
-        post.loginUsuario(usuario, new IPost.IPostCallback() {
+        post.loginUsuario(email, senha, new IPost.IPostCallback() {
             @Override
             public void onLoaded(String msg) {
                 loginView.carregarActivity(MenuActivity.class);

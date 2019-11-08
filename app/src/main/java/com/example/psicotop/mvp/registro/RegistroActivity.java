@@ -3,9 +3,11 @@ package com.example.psicotop.mvp.registro;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +28,10 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
     EditText etSobrenome;
     EditText etConfirmaSenha;
     EditText etPsicologo;
+    TextView tvPsicologo;
     Spinner spinnerUsuario;
+
+    int itemSpinner = 0;
 
     RegistroContract.UserActionsListener presenter;
 
@@ -53,11 +58,35 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
         etSobrenome = findViewById(R.id.etSobrenome);
         etConfirmaSenha = findViewById(R.id.etConfirmaSenha);
         etPsicologo = findViewById(R.id.etPsicologo);
+        tvPsicologo = findViewById(R.id.tvPsicologo);
 
         btnRegistrar = findViewById(R.id.btnRegistrar);
 
+        spinnerUsuario.setOnItemSelectedListener(mudarItemSelecionado());
         btnRegistrar.setOnClickListener(registrarUsuario());
 
+    }
+
+    private AdapterView.OnItemSelectedListener mudarItemSelecionado(){
+        return new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1){
+                    itemSpinner = 1;
+                    etPsicologo.setVisibility(View.GONE);
+                    tvPsicologo.setVisibility(View.GONE);
+                }else {
+                    itemSpinner = 0;
+                    etPsicologo.setVisibility(View.VISIBLE);
+                    tvPsicologo.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        };
     }
 
     private Usuario criarUsuario(){
@@ -65,7 +94,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
         Usuario usuario;
 
         if (spinnerUsuario.getSelectedItem().toString().equals("Paciente")){
-            usuario = new Paciente();
+            usuario = new Paciente(etPsicologo.getText().toString());
         }else {
             usuario = new Psicologo();
         }
@@ -83,7 +112,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
             @Override
             public void onClick(View v) {
                 if(!camposInvalidos()){
-                    if (!presenter.psicologoExiste(etPsicologo.getText().toString())){
+                    if (!presenter.psicologoExiste(etPsicologo.getText().toString()) && itemSpinner == 0){
                         view.carregarMensagem("Psicólogo não existe");
                     }else {
                         presenter.registrarUsuario(criarUsuario());
@@ -122,12 +151,16 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
         }else if (util.verificaCampoNulo(etSenha.getText().toString())){
             msg = "Campo de Senha vazio";
             status = true;
-        }else if (util.verificaCampoNulo(etPsicologo.getText().toString())){
-            msg = "Campo de Psicólogo vazio";
-            status = true;
         }else if (!etSenha.getText().toString().equals(etConfirmaSenha.getText().toString())){
             msg = "Campos de Senha e Confirmação não são iguais";
             status = true;
+        }
+
+        if (itemSpinner == 0){
+            if (util.verificaCampoNulo(etPsicologo.getText().toString())){
+                msg = "Campo de Psicólogo vazio";
+                status = true;
+            }
         }
 
         if (status){

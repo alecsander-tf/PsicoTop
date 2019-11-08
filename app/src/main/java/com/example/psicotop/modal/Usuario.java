@@ -1,5 +1,7 @@
 package com.example.psicotop.modal;
 
+import java.util.Objects;
+
 public abstract class Usuario {
 
     private String id;
@@ -51,4 +53,16 @@ public abstract class Usuario {
         this.nome = nome;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return email.equals(usuario.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
 }

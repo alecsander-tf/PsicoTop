@@ -66,20 +66,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             @Override
             public void onClick(View v) {
 
-                presenter.login(criarUsuario());
+                presenter.login(etEmail.getText().toString(), etSenha.getText().toString());
 
             }
         };
-    }
-
-    private Usuario criarUsuario(){
-
-        Usuario usuario = new Paciente();
-
-        usuario.setEmail(etEmail.getText().toString());
-        usuario.setSenha(etSenha.getText().toString());
-
-        return usuario;
     }
 
     @Override

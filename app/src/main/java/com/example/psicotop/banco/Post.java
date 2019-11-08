@@ -18,7 +18,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,8 @@ public class Post implements IPost{
     private DatabaseReference myRef;
     private FirebaseDatabase mDatabase;
 
+    private static ChildEventListener childEventListener;
+
     static private List<Usuario> usuarios = new ArrayList<>();
     static private List<Usuario> psicologos = new ArrayList<>();
 
@@ -39,66 +40,53 @@ public class Post implements IPost{
         mDatabase = FirebaseDatabase.getInstance();
         myRef = mDatabase.getReference();
         myAuth = FirebaseAuth.getInstance();
+
+        DatabaseReference psicologoRef = myRef.child("Usuario").child("Psicologo");
+
+        if (childEventListener == null) {
+
+            childEventListener = psicologoRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    Usuario u = dataSnapshot.getValue(Psicologo.class);
+
+                    if (!psicologos.contains(u)) {
+                        psicologos.add(u);
+                    }
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    if (!psicologos.contains(dataSnapshot.getValue(Psicologo.class))) {
+                        psicologos.add(dataSnapshot.getValue(Psicologo.class));
+                    }
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    psicologos.remove(dataSnapshot.getValue(Psicologo.class));
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     @Override
     public boolean psicologoExiste(String email){
-
-        myRef.child("Usuario").child("Psicologo").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()){
-                    if (!psicologos.contains(child.getValue(Psicologo.class))){
-                        psicologos.add(child.getValue(Psicologo.class));
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Usuario usuario = dataSnapshot.getValue(Usuario.class);
-
-                if (!psicologos.contains(dataSnapshot.getValue(Psicologo.class))){
-                    psicologos.add(dataSnapshot.getValue(Psicologo.class));
-                }
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                Psicologo psicologo = dataSnapshot.getValue(Psicologo.class);
-
-                if (!psicologos.contains(dataSnapshot.getValue(Psicologo.class))){
-                    psicologos.add(dataSnapshot.getValue(Psicologo.class));
-                }
-
-                usuarios.add(usuario);
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                psicologos.remove(dataSnapshot.getValue(Psicologo.class));
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         for (Usuario psicologo : psicologos){
             if (email.equals(psicologo.getEmail())){
@@ -157,9 +145,9 @@ public class Post implements IPost{
         DatabaseReference usuarioRefmyRef = myRef.child("Usuario").child("Psicologo");
     }
 
-    public void loginUsuario(Usuario u, final IPostCallback callback){
+    public void loginUsuario(String email, String senha, final IPostCallback callback){
 
-        myAuth.signInWithEmailAndPassword(u.getEmail(), u.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        myAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
