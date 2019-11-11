@@ -1,5 +1,6 @@
 package com.example.psicotop.banco;
 
+import com.example.psicotop.modal.Emocao;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Usuario;
 
@@ -18,8 +19,9 @@ public interface IPost {
     }
 
     Usuario getCurrentUserLogged();
-
-    void alterarPaciente(Paciente p);
+    void carregarEmocoes(IPostListCallback iPostListCallback);
+    void registrarEmocao(Emocao e, IPostCallback callback);
+    void alterarPaciente(Paciente p, IPostCallback callback);
     boolean psicologoExiste(String email);
     void verificarUsuario(IPostListCallback callback);
     void loginUsuario(String email, String senha, IPostCallback callback);

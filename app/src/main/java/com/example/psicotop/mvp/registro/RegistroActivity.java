@@ -1,5 +1,6 @@
 package com.example.psicotop.mvp.registro;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
+import com.example.psicotop.mvp.login.LoginActivity;
 import com.example.psicotop.utils.Util;
 
 public class RegistroActivity extends AppCompatActivity implements RegistroContract.View{
@@ -30,6 +32,8 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
     EditText etPsicologo;
     TextView tvPsicologo;
     Spinner spinnerUsuario;
+
+    ProgressDialog progDailog;
 
     int itemSpinner = 0;
 
@@ -64,6 +68,12 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
 
         spinnerUsuario.setOnItemSelectedListener(mudarItemSelecionado());
         btnRegistrar.setOnClickListener(registrarUsuario());
+
+        progDailog = new ProgressDialog(RegistroActivity.this);
+        progDailog.setMessage("Registrando...");
+        progDailog.setIndeterminate(false);
+        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDailog.setCancelable(true);
 
     }
 
@@ -130,6 +140,15 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
     @Override
     public void carregarMensagem(String msg) {
         Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setCarregando(boolean carregando) {
+        if (carregando){
+            progDailog.show();
+        }else {
+            progDailog.dismiss();
+        }
     }
 
     private boolean camposInvalidos() {

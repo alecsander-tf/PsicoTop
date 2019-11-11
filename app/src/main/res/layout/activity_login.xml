@@ -34,10 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="@drawable/custom_card"
-            android:paddingRight="16dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="16dp"
+            android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -72,7 +69,6 @@
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:text="Usuário"
                 app:layout_constraintStart_toStartOf="@+id/etEmail"
                 app:layout_constraintTop_toTopOf="parent" />

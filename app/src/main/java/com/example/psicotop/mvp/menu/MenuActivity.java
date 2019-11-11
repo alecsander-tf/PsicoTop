@@ -15,6 +15,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.psicotop.R;
 import com.example.psicotop.mvp.configuracoes.ConfiguracoesActivity;
+import com.example.psicotop.mvp.menu.diario.DiarioFragment;
+import com.example.psicotop.mvp.menu.resumo.ResumoFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
 
         TabsAdapter adapter = new TabsAdapter( getSupportFragmentManager() );
         adapter.add( new DiarioFragment() , "Resumo");
-        adapter.add( new DiarioFragment() , "Diário");
+        adapter.add( new ResumoFragment() , "Diário");
 
         ViewPager viewPager = findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);

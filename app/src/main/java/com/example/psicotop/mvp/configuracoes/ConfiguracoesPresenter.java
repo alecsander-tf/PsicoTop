@@ -1,6 +1,7 @@
 package com.example.psicotop.mvp.configuracoes;
 
 import com.example.psicotop.banco.IPost;
+import com.example.psicotop.modal.Emocao;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Usuario;
 
@@ -14,12 +15,29 @@ public class ConfiguracoesPresenter implements ConfiguracoesContract.UserActions
         this.view = view;
     }
 
+    public boolean psicologoExiste(String psicologo){
+        return(post.psicologoExiste(psicologo));
+    }
+
     public Usuario getCurrentUserLogged(){
         return post.getCurrentUserLogged();
     }
 
     @Override
     public void alterarDados(Paciente paciente) {
-        post.alterarPaciente(paciente);
+        post.alterarPaciente(paciente, new IPost.IPostCallback() {
+            @Override
+            public void onLoaded(String msg) {
+                view.setCarregando(false);
+                view.carregarMensagem("Psicólogo responsável alterado");
+            }
+
+            @Override
+            public void onError(String msg) {
+
+            }
+        });
     }
+
+
 }

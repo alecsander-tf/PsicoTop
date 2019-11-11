@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.psicotop.modal.Emocao;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
@@ -36,12 +37,34 @@ public class Post implements IPost{
     static private Usuario currentUserLogged;
     static private List<Usuario> pacientes = new ArrayList<>();
     static private List<Usuario> psicologos = new ArrayList<>();
+    static private List<Emocao> listaEmocoes = new ArrayList<>();
 
     private DatabaseReference psicologoRef;
     private DatabaseReference pacienteRef;
 
     public Usuario getCurrentUserLogged(){
         return currentUserLogged;
+    }
+
+    @Override
+    public void carregarEmocoes(IPostListCallback callback) {
+        callback.onLoaded(listaEmocoes);
+    }
+
+    @Override
+    public void registrarEmocao(Emocao e, IPostCallback callback) {
+        DatabaseReference emocaoRef = pacienteRef.child(currentUserLogged.getId()).child("Emocoes").push();
+        e.setId(emocaoRef.getKey());
+        emocaoRef.setValue(e);
+        listaEmocoes.add(e);
+        callback.onLoaded("");
+    }
+
+    @Override
+    public void alterarPaciente(Paciente p, IPostCallback callback) {
+        String id = p.getId();
+        pacienteRef.child(id).setValue(p);
+        callback.onLoaded("Sucesso");
     }
 
     public Post(){
@@ -131,13 +154,6 @@ public class Post implements IPost{
     }
 
     @Override
-    public void alterarPaciente(Paciente paciente) {
-
-        String id = paciente.getId();
-        pacienteRef.child(id).setValue(paciente);
-    }
-
-    @Override
     public boolean psicologoExiste(String email){
 
         for (Usuario psicologo : psicologos){
@@ -199,7 +215,43 @@ public class Post implements IPost{
         DatabaseReference usuarioRefmyRef = myRef.child("Usuario").child("Psicologo");
     }
 
+    private void addListener(final DatabaseReference[] child){
+        child[0].addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Emocao e = dataSnapshot.getValue(Emocao.class);
+
+                if (!listaEmocoes.contains(e)){
+                    listaEmocoes.add(e);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void loginUsuario(String email, String senha, final IPostCallback callback){
+
+        final DatabaseReference[] child = new DatabaseReference[1];
+        listaEmocoes = new ArrayList<>();
 
         myAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -209,6 +261,8 @@ public class Post implements IPost{
                     for (Usuario usuario : psicologos){
                         if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
                             currentUserLogged = usuario;
+                             child[0] = myRef.child("Usuario").child("Psicologo").child(currentUserLogged.getId()).child("Emocoes");
+                             addListener(child);
                         }
                     }
 
@@ -217,17 +271,16 @@ public class Post implements IPost{
                             currentUserLogged = usuario;
                         }
                     }
-
-                    Log.d(TAG, "logado");
-                    callback.onLoaded("Sucesso");
+                    callback.onLoaded("");
                 }else {
-                    Log.d(TAG, "nao logado");
                     Log.d(TAG, task.getException().getMessage());
 
                     callback.onError(task.getException().getMessage());
                 }
             }
         });
+
+
 
     }
 }

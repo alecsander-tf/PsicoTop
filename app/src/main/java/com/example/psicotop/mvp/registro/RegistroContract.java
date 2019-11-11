@@ -8,6 +8,7 @@ public interface RegistroContract {
     interface View{
         void carregarActivity(Class<?> arg);
         void carregarMensagem(String msg);
+        void setCarregando(boolean carregando);
     }
 
     interface UserActionsListener{

@@ -55,9 +55,12 @@ public class RegistroPresenter implements RegistroContract.UserActionsListener{
 
     @Override
     public void registrarUsuario(Usuario u) {
+
+        view.setCarregando(true);
         post.registrarUsuario(u, new IPost.IPostCallback() {
             @Override
             public void onLoaded(String msg) {
+                view.setCarregando(false);
                 view.carregarActivity(LoginActivity.class);
                 if (!msg.equals("")){
                     view.carregarMensagem(msg);

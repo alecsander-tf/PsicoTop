@@ -1,5 +1,6 @@
 package com.example.psicotop.mvp.login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     TextView tvCriarNovaConta;
     Button btnLogin;
 
+    ProgressDialog progDailog;
+
     private LoginContract.UserActionsListener presenter;
 
     @Override
@@ -49,6 +52,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
         tvCriarNovaConta.setOnClickListener(criarNovaConta());
         btnLogin.setOnClickListener(loginUser());
+
+        progDailog = new ProgressDialog(LoginActivity.this);
+        progDailog.setMessage("Entrando...");
+        progDailog.setIndeterminate(false);
+        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDailog.setCancelable(true);
 
     }
 
@@ -80,6 +89,16 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void carregarMensagem(String msg) {
         Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setCarregando(boolean carregando) {
+
+        if (carregando){
+            progDailog.show();
+        }else {
+            progDailog.dismiss();
+        }
     }
 }
 
