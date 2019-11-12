@@ -2,10 +2,12 @@ package com.example.psicotop.mvp.menu.resumo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Emocao;
+import com.example.psicotop.modal.EmocaoEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +38,14 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         super.onCreate(savedInstanceState);
         mListAdapter = new EmocoesAdapter(new ArrayList<Emocao>(0));
         presenter = new ResumoPresenter(this, new Post());
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_resumo, container, false);
-
+        presenter.carregarEmocoes();
         return view;
     }
 
@@ -85,8 +89,17 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         public void onBindViewHolder(@NonNull EmocoesAdapter.ViewHolder holder, int position) {
             Emocao e = mEmocoes.get(position);
 
-            //holder.diaDaSemana.setText(e.getDiaDaSemana());
             holder.diaDaSemana.setText("S");
+
+            if (e.getTipoEmocao().equals(EmocaoEnum.NORMAL)){
+                holder.layout.setBackgroundColor(Color.parseColor("#E5E5E5"));
+            }else if (e.getTipoEmocao().equals(EmocaoEnum.FELIZ)){
+                holder.layout.setBackgroundColor(Color.parseColor("#E4F6DE"));
+            }else {
+                holder.layout.setBackgroundColor(Color.parseColor("#DEEAF6"));
+            }
+
+
         }
 
         public void replaceData(List<Emocao> emocaos){
@@ -110,11 +123,12 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             private TextView diaDaSemana;
+            private ConstraintLayout layout;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 diaDaSemana = itemView.findViewById(R.id.tvDiaDaSemana);
-
+                layout = itemView.findViewById(R.id.layoutFundo);
             }
         }
 

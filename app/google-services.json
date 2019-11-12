@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "141957232489",
-    "firebase_url": "https://psico-237e7.firebaseio.com",
-    "project_id": "psico-237e7",
-    "storage_bucket": "psico-237e7.appspot.com"
+    "project_number": "593586031638",
+    "firebase_url": "https://psico-top-cdcbc.firebaseio.com",
+    "project_id": "psico-top-cdcbc",
+    "storage_bucket": "psico-top-cdcbc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:141957232489:android:c6f26e4cf2b7c7bda66ff8",
+        "mobilesdk_app_id": "1:593586031638:android:80a8c46febb9478482f937",
         "android_client_info": {
           "package_name": "com.example.psicotop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "141957232489-9qd5fhlpaqds97ta7hp9n4hbdbk4d3ih.apps.googleusercontent.com",
+          "client_id": "593586031638-k2616s5557ict0ma0qolj9qu59ptjgmd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAEZ6wNbxw_kZQuaHwExEsKRBUH81Z8SrQ"
+          "current_key": "AIzaSyD5DJq8EkxUiFVmSSg4dsl7uUPuZTDh1MA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "141957232489-9qd5fhlpaqds97ta7hp9n4hbdbk4d3ih.apps.googleusercontent.com",
+              "client_id": "593586031638-k2616s5557ict0ma0qolj9qu59ptjgmd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,6 +1,8 @@
 package com.example.psicotop.banco;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,6 +11,7 @@ import com.example.psicotop.modal.Emocao;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
+import com.example.psicotop.mvp.menu.diario.DiarioFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -69,6 +72,7 @@ public class Post implements IPost{
 
     public Post(){
 
+        //FirebaseDatabase.getInstance("https://psico-top-cdcbc.firebaseio.com");
         mDatabase = FirebaseDatabase.getInstance();
         myRef = mDatabase.getReference();
         myAuth = FirebaseAuth.getInstance();
