@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.psicotop.modal.Emocao;
+import com.example.psicotop.modal.EmocaoEnum;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
@@ -51,7 +52,9 @@ public class Post implements IPost{
 
     @Override
     public void carregarEmocoes(IPostListCallback callback) {
-        callback.onLoaded(listaEmocoes);
+        if (listaEmocoes != null){
+            callback.onLoaded(listaEmocoes);
+        }
     }
 
     @Override
@@ -72,7 +75,6 @@ public class Post implements IPost{
 
     public Post(){
 
-        //FirebaseDatabase.getInstance("https://psico-top-cdcbc.firebaseio.com");
         mDatabase = FirebaseDatabase.getInstance();
         myRef = mDatabase.getReference();
         myAuth = FirebaseAuth.getInstance();
@@ -219,8 +221,8 @@ public class Post implements IPost{
         DatabaseReference usuarioRefmyRef = myRef.child("Usuario").child("Psicologo");
     }
 
-    private void addListener(final DatabaseReference[] child){
-        child[0].addChildEventListener(new ChildEventListener() {
+    private void addListener(final DatabaseReference child){
+        child.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Emocao e = dataSnapshot.getValue(Emocao.class);
@@ -228,6 +230,8 @@ public class Post implements IPost{
                 if (!listaEmocoes.contains(e)){
                     listaEmocoes.add(e);
                 }
+
+
             }
 
             @Override
@@ -266,7 +270,8 @@ public class Post implements IPost{
                         if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
                             currentUserLogged = usuario;
                              child[0] = myRef.child("Usuario").child("Psicologo").child(currentUserLogged.getId()).child("Emocoes");
-                             addListener(child);
+
+                             addListener(child[0]);
                         }
                     }
 

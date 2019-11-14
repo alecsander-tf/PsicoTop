@@ -14,6 +14,13 @@ public class Emocao {
         this.id = id;
     }
 
+    public Emocao() {}
+
+    public Emocao(String id, EmocaoEnum tipoEmocao, String comentario) {
+        this.id = id;
+        this.tipoEmocao = tipoEmocao;
+        this.comentario = comentario;
+    }
 
     public EmocaoEnum getTipoEmocao() {
         return tipoEmocao;

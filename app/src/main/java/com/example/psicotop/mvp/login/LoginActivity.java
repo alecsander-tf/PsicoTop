@@ -94,10 +94,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void setCarregando(boolean carregando) {
 
-        if (carregando){
-            progDailog.show();
-        }else {
-            progDailog.dismiss();
+        if (progDailog != null){
+            if (carregando){
+                progDailog.show();
+            }else {
+                progDailog.dismiss();
+            }
         }
     }
 }

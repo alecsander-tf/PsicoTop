@@ -11,6 +11,7 @@ public interface ResumoContract {
     interface View {
         void abrirActivity(Intent intent);
         void exibirEmocoes(List<Emocao> emocoes);
+        void mostrarMensagem(String msg);
     }
 
     interface UserActionsListener {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGray"
     tools:context=".mvp.menu.resumo.ResumoFragment"
     android:padding="16dp">
 
@@ -15,17 +16,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_card"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
             <TextView
+                android:id="@+id/tvSeuResumoSemanal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Seu resumo semanal"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/emocoes_list"
+                android:background="@drawable/custom_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                tools:itemCount="7" />
 
         </LinearLayout>
 

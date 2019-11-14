@@ -29,6 +29,8 @@ public class LoginPresenter implements LoginContract.UserActionsListener{
 
             @Override
             public void onError(String msg) {
+
+                loginView.setCarregando(false);
                 loginView.carregarMensagem(msg);
             }
         });

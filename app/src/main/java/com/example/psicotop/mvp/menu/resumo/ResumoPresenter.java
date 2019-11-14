@@ -48,7 +48,7 @@ public class ResumoPresenter implements ResumoContract.UserActionsListener {
 
             @Override
             public void onError(String msg) {
-
+                view.mostrarMensagem(msg);
             }
         });
     }
