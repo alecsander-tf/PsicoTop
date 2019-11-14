@@ -1,18 +1,14 @@
 package com.example.psicotop.banco;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.psicotop.modal.Emocao;
-import com.example.psicotop.modal.EmocaoEnum;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
-import com.example.psicotop.mvp.menu.diario.DiarioFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -63,7 +59,7 @@ public class Post implements IPost{
         e.setId(emocaoRef.getKey());
         emocaoRef.setValue(e);
         listaEmocoes.add(e);
-        callback.onLoaded("");
+        callback.onLoaded("Registrado!");
     }
 
     @Override
@@ -225,6 +221,7 @@ public class Post implements IPost{
         child.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
                 Emocao e = dataSnapshot.getValue(Emocao.class);
 
                 if (!listaEmocoes.contains(e)){
@@ -269,15 +266,14 @@ public class Post implements IPost{
                     for (Usuario usuario : psicologos){
                         if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
                             currentUserLogged = usuario;
-                             child[0] = myRef.child("Usuario").child("Psicologo").child(currentUserLogged.getId()).child("Emocoes");
-
-                             addListener(child[0]);
                         }
                     }
 
                     for (Usuario usuario : pacientes){
                         if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
                             currentUserLogged = usuario;
+                            child[0] = myRef.child("Usuario").child("Paciente").child(currentUserLogged.getId()).child("Emocoes");
+                            addListener(child[0]);
                         }
                     }
                     callback.onLoaded("");

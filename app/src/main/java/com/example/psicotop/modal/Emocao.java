@@ -3,7 +3,7 @@ package com.example.psicotop.modal;
 public class Emocao {
 
     private String id;
-    private EmocaoEnum tipoEmocao;
+    private String tipoEmocao;
     private String comentario;
 
     public String getId() {
@@ -16,17 +16,17 @@ public class Emocao {
 
     public Emocao() {}
 
-    public Emocao(String id, EmocaoEnum tipoEmocao, String comentario) {
+    public Emocao(String id, String tipoEmocao, String comentario) {
         this.id = id;
         this.tipoEmocao = tipoEmocao;
         this.comentario = comentario;
     }
 
-    public EmocaoEnum getTipoEmocao() {
+    public String getTipoEmocao() {
         return tipoEmocao;
     }
 
-    public void setTipoEmocao(EmocaoEnum tipoEmocao) {
+    public void setTipoEmocao(String tipoEmocao) {
         this.tipoEmocao = tipoEmocao;
     }
 

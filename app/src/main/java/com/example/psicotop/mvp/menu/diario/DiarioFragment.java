@@ -15,9 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Emocao;
-import com.example.psicotop.modal.EmocaoEnum;
-import com.example.psicotop.modal.Paciente;
-import com.example.psicotop.modal.Usuario;
 
 public class DiarioFragment extends Fragment implements DiarioContract.View {
 
@@ -71,14 +68,7 @@ public class DiarioFragment extends Fragment implements DiarioContract.View {
                 Emocao e = new Emocao();
 
                 e.setComentario(etComentario.getText().toString());
-
-                if (spinnerEmocoes.getSelectedItem().toString().equals("Normal")){
-                    e.setTipoEmocao(EmocaoEnum.NORMAL);
-                }else if (spinnerEmocoes.getSelectedItem().toString().equals("Feliz")){
-                    e.setTipoEmocao(EmocaoEnum.FELIZ);
-                }else {
-                    e.setTipoEmocao(EmocaoEnum.TRISTE);
-                }
+                e.setTipoEmocao(spinnerEmocoes.getSelectedItem().toString());
 
                 presenter.registrarEmocao(e);
             }

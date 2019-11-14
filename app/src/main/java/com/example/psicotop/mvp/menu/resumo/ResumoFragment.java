@@ -3,10 +3,8 @@ package com.example.psicotop.mvp.menu.resumo;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,14 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Emocao;
-import com.example.psicotop.modal.EmocaoEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,14 +73,9 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
     @Override
     public void exibirEmocoes(List<Emocao> emocoes) {
 
-        /*if (emocoes != null){
-
-            mostrarMensagem(emocoes.get(0).getComentario());
-            //mListAdapter.replaceData(emocoes);
-        }else {
-
-            mostrarMensagem("nulo");
-        }*/
+        if (emocoes != null && emocoes.size() > 0){
+            mListAdapter.replaceData(emocoes);
+        }
     }
 
     @Override
@@ -114,10 +105,10 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         public void onBindViewHolder(ViewHolder holder, int position) {
             Emocao e = mEmocoes.get(position);
 
-            if (e.getTipoEmocao().equals(EmocaoEnum.NORMAL)){
+            if (e.getTipoEmocao().equals("Normal")){
                 holder.diaDaSemana.setText("N");
                 holder.layout.setBackgroundColor(Color.parseColor("#E5E5E5"));
-            }else if (e.getTipoEmocao().equals(EmocaoEnum.FELIZ)){
+            }else if (e.getTipoEmocao().equals("Feliz")){
                 holder.diaDaSemana.setText("F");
                 holder.layout.setBackgroundColor(Color.parseColor("#E4F6DE"));
             }else {
@@ -130,7 +121,7 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
 
         public void replaceData(List<Emocao> emocoes){
             mEmocoes = emocoes;
-            //notifyDataSetChanged();
+            notifyDataSetChanged();
         }
 
         @Override
