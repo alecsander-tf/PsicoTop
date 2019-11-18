@@ -1,5 +1,7 @@
 package com.example.psicotop.modal;
 
+import java.util.Objects;
+
 public class Emocao {
 
     private String id;
@@ -36,5 +38,18 @@ public class Emocao {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Emocao emocao = (Emocao) o;
+        return id.equals(emocao.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

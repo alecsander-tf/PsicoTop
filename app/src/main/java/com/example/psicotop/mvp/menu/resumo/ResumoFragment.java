@@ -2,10 +2,15 @@ package com.example.psicotop.mvp.menu.resumo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +26,7 @@ import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Emocao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ResumoFragment extends Fragment implements ResumoContract.View{
@@ -54,7 +60,12 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         RecyclerView recyclerView = view.findViewById(R.id.emocoes_list);
 
         List<Emocao> aux = new ArrayList<>();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+
+
+        recyclerView.setHasFixedSize(true);
 
 /*        aux.add(new Emocao("1", EmocaoEnum.TRISTE, "chateado"));
         aux.add(new Emocao("2", EmocaoEnum.TRISTE, "BEM feliz"));
@@ -83,6 +94,14 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser){
+            presenter.carregarEmocoes();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     private class EmocoesAdapter extends RecyclerView.Adapter<EmocoesAdapter.ViewHolder>{
 
         private List<Emocao> mEmocoes;
@@ -103,6 +122,7 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
+
             Emocao e = mEmocoes.get(position);
 
             if (e.getTipoEmocao().equals("Normal")){
@@ -120,13 +140,14 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         }
 
         public void replaceData(List<Emocao> emocoes){
+            Collections.reverse(emocoes);
             mEmocoes = emocoes;
             notifyDataSetChanged();
         }
 
         @Override
         public int getItemCount() {
-            return mEmocoes.size();
+            return 6;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
@@ -140,7 +161,24 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
                 layout = itemView.findViewById(R.id.layoutFundo);
             }
         }
+    }
 
+    public class HorizontalSpaceDecoration extends RecyclerView.ItemDecoration {
+
+        private final int verticalSpaceHeight;
+
+        public HorizontalSpaceDecoration(int verticalSpaceHeight) {
+            this.verticalSpaceHeight = verticalSpaceHeight;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            if (parent.getChildAdapterPosition(view) != parent.getAdapter().getItemCount() - 1) {
+                outRect.right = verticalSpaceHeight;
+                outRect.bottom = verticalSpaceHeight;
+            }
+        }
     }
 
 }

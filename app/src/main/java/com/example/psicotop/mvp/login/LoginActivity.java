@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     EditText etEmail;
     EditText etSenha;
+    boolean teste = true;
 
     TextView tvCriarNovaConta;
     Button btnLogin;
@@ -58,6 +59,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         progDailog.setIndeterminate(false);
         progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progDailog.setCancelable(true);
+
+        if (teste){
+            etEmail.setText("paciente@teste.gmail.com");
+            etSenha.setText("123456");
+        }
 
     }
 

@@ -58,7 +58,6 @@ public class Post implements IPost{
         DatabaseReference emocaoRef = pacienteRef.child(currentUserLogged.getId()).child("Emocoes").push();
         e.setId(emocaoRef.getKey());
         emocaoRef.setValue(e);
-        listaEmocoes.add(e);
         callback.onLoaded("Registrado!");
     }
 
@@ -239,6 +238,10 @@ public class Post implements IPost{
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
+                Emocao e = dataSnapshot.getValue(Emocao.class);
+                if (listaEmocoes.contains(e)){
+                    listaEmocoes.remove(e);
+                }
             }
 
             @Override
