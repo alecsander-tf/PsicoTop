@@ -163,22 +163,4 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         }
     }
 
-    public class HorizontalSpaceDecoration extends RecyclerView.ItemDecoration {
-
-        private final int verticalSpaceHeight;
-
-        public HorizontalSpaceDecoration(int verticalSpaceHeight) {
-            this.verticalSpaceHeight = verticalSpaceHeight;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-
-            if (parent.getChildAdapterPosition(view) != parent.getAdapter().getItemCount() - 1) {
-                outRect.right = verticalSpaceHeight;
-                outRect.bottom = verticalSpaceHeight;
-            }
-        }
-    }
-
 }

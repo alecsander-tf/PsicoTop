@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.configuracoes.ConfiguracoesActivity"
-            android:parentActivityName=".mvp.menu.MenuActivity"></activity>
+        <activity android:name=".DetalhesResumoActivity"
+            android:parentActivityName=".mvp.menu.MenuActivity" />
+        <activity
+            android:name=".mvp.configuracoes.ConfiguracoesActivity"
+            android:parentActivityName=".mvp.menu.MenuActivity" />
         <activity android:name=".mvp.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +23,10 @@
         </activity>
         <activity
             android:name=".mvp.menu.MenuActivity"
-            android:theme="@style/CustomNoActionBar">
-        </activity>
+            android:theme="@style/CustomNoActionBar"></activity>
         <activity
             android:name=".mvp.registro.RegistroActivity"
-            android:parentActivityName=".mvp.login.LoginActivity"></activity>
+            android:parentActivityName=".mvp.login.LoginActivity" />
     </application>
 
 </manifest>
