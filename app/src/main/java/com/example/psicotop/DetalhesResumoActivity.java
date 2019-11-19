@@ -2,7 +2,9 @@ package com.example.psicotop;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -12,35 +14,71 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Emocao;
 import com.example.psicotop.mvp.menu.resumo.ResumoFragment;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DetalhesResumoActivity extends AppCompatActivity {
+public class DetalhesResumoActivity extends AppCompatActivity implements DetalhesResumoContract.View {
+
+    private DetalhesResumoContract.UserActionsListener presenter;
+    DetalhesAdapter mListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_resumo);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+
+        bind();
+        presenter.carregarDetalhesEmocoes();
     }
 
-    private class EmocoesAdapter extends RecyclerView.Adapter<DetalhesResumoActivity.EmocoesAdapter.ViewHolder>{
+    private void bind(){
+
+        mListAdapter = new DetalhesAdapter(new ArrayList<Emocao>());
+
+        RecyclerView recyclerView = findViewById(R.id.emocoesDetalhes_list);
+        recyclerView.setAdapter(mListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        presenter = new DetalhesResumoPresenter(this, new Post());
+    }
+
+    @Override
+    public void exibirDetalhesEmocoes(List<Emocao> emocoes) {
+        mListAdapter.replaceData(emocoes);
+    }
+
+    @Override
+    public void carregarMensagem(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
+
+    private class DetalhesAdapter extends RecyclerView.Adapter<DetalhesResumoActivity.DetalhesAdapter.ViewHolder>{
 
         private List<Emocao> mEmocoes;
 
-        public EmocoesAdapter(List<Emocao> emocaos){
+        public DetalhesAdapter(List<Emocao> emocaos){
             mEmocoes = emocaos;
         }
 
         @Override
-        public DetalhesResumoActivity.EmocoesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public DetalhesResumoActivity.DetalhesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
-            View noteView = inflater.inflate(R.layout.emocao_item, parent, false);
+            View noteView = inflater.inflate(R.layout.emocao_detalhe_item, parent, false);
 
             return new ViewHolder(noteView);
         }
@@ -49,16 +87,10 @@ public class DetalhesResumoActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Emocao e = mEmocoes.get(position);
 
-            if (e.getTipoEmocao().equals("Normal")){
-                holder.diaDaSemana.setText("N");
-                holder.layout.setBackgroundColor(Color.parseColor("#E5E5E5"));
-            }else if (e.getTipoEmocao().equals("Feliz")){
-                holder.diaDaSemana.setText("F");
-                holder.layout.setBackgroundColor(Color.parseColor("#E4F6DE"));
-            }else {
-                holder.diaDaSemana.setText("T");
-                holder.layout.setBackgroundColor(Color.parseColor("#DEEAF6"));
-            }
+            holder.descricao.setText(e.getComentario());
+            holder.diaDaSemana.setText(e.getDataRegistro());
+            holder.tipoEmocao.setText(e.getTipoEmocao());
+
         }
 
         public void replaceData(List<Emocao> emocoes){
@@ -75,12 +107,14 @@ public class DetalhesResumoActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             private TextView diaDaSemana;
-            private ConstraintLayout layout;
+            private TextView descricao;
+            private TextView tipoEmocao;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                diaDaSemana = itemView.findViewById(R.id.tvDiaDaSemana);
-                layout = itemView.findViewById(R.id.layoutFundo);
+                tipoEmocao = itemView.findViewById(R.id.tvTipoEmocao);
+                diaDaSemana = itemView.findViewById(R.id.tvDataEmocaoDetalhe);
+                descricao = itemView.findViewById(R.id.tvDescricaoEmocaoDetalhe);
             }
         }
     }

@@ -25,6 +25,7 @@
 
             <TextView
                 android:id="@+id/tvSeuResumoSemanal"
+                android:textColor="@color/colorBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Seu resumo semanal"
@@ -37,18 +38,18 @@
                 android:id="@+id/emocoes_list"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:padding="1dp"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="0dp"
-                android:paddingVertical="2dp"
-                android:background="@drawable/custom_spinner"
+                android:background="@drawable/custom_recycler_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSeuResumoSemanal"
-                tools:itemCount="6" />
+                tools:itemCount="6"/>
 
             <TextView
-                android:id="@+id/tvSeuResumoSemanal2"
+                android:id="@+id/tvVerDetalhes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"

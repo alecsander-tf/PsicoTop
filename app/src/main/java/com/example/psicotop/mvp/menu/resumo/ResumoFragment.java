@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.psicotop.DetalhesResumoActivity;
 import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Emocao;
@@ -58,26 +59,30 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         View view = inflater.inflate(R.layout.fragment_resumo, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.emocoes_list);
+        TextView tvVerDetalhes = view.findViewById(R.id.tvVerDetalhes);
 
-        List<Emocao> aux = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-
-
-        recyclerView.setHasFixedSize(true);
-
-/*        aux.add(new Emocao("1", EmocaoEnum.TRISTE, "chateado"));
-        aux.add(new Emocao("2", EmocaoEnum.TRISTE, "BEM feliz"));
-        aux.add(new Emocao("3", EmocaoEnum.NORMAL, "de boa"));*/
-        mListAdapter = new EmocoesAdapter(aux);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mListAdapter = new EmocoesAdapter(new ArrayList<Emocao>());
         recyclerView.setAdapter(mListAdapter);
+
+        tvVerDetalhes.setOnClickListener(tvVerDetalhesClick());
 
         return view;
     }
 
+    private View.OnClickListener tvVerDetalhesClick(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirActivity(new Intent(getContext(), DetalhesResumoActivity.class));
+            }
+        };
+    }
+
     @Override
     public void abrirActivity(Intent intent) {
+
+        startActivity(intent);
 
     }
 
@@ -106,7 +111,7 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
 
         private List<Emocao> mEmocoes;
 
-        public EmocoesAdapter(List<Emocao> emocaos){
+        EmocoesAdapter(List<Emocao> emocaos){
             mEmocoes = emocaos;
         }
 
@@ -123,23 +128,25 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
 
-            Emocao e = mEmocoes.get(position);
+            if (mEmocoes != null && mEmocoes.size() > 0) {
 
-            if (e.getTipoEmocao().equals("Normal")){
-                holder.diaDaSemana.setText("N");
-                holder.layout.setBackgroundColor(Color.parseColor("#E5E5E5"));
-            }else if (e.getTipoEmocao().equals("Feliz")){
-                holder.diaDaSemana.setText("F");
-                holder.layout.setBackgroundColor(Color.parseColor("#E4F6DE"));
-            }else {
-                holder.diaDaSemana.setText("T");
-                holder.layout.setBackgroundColor(Color.parseColor("#DEEAF6"));
+                Emocao e = mEmocoes.get(position);
+
+                if (e.getTipoEmocao().equals("Normal")) {
+                    holder.diaDaSemana.setText("N");
+                    holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_normal_item));
+                } else if (e.getTipoEmocao().equals("Feliz")) {
+                    holder.diaDaSemana.setText("F");
+                    holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_feliz_item));
+                } else {
+                    holder.diaDaSemana.setText("T");
+                    holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_triste_item));
+                }
             }
-
 
         }
 
-        public void replaceData(List<Emocao> emocoes){
+        void replaceData(List<Emocao> emocoes){
             Collections.reverse(emocoes);
             mEmocoes = emocoes;
             notifyDataSetChanged();
@@ -147,15 +154,20 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
 
         @Override
         public int getItemCount() {
-            return 6;
+
+            if (mEmocoes.size() <= 6){
+                return mEmocoes.size();
+            }else {
+                return 6;
+            }
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
             private TextView diaDaSemana;
             private ConstraintLayout layout;
 
-            public ViewHolder(View itemView) {
+            ViewHolder(View itemView) {
                 super(itemView);
                 diaDaSemana = itemView.findViewById(R.id.tvDiaDaSemana);
                 layout = itemView.findViewById(R.id.layoutFundo);

@@ -5,8 +5,17 @@ import java.util.Objects;
 public class Emocao {
 
     private String id;
+    private String dataRegistro;
     private String tipoEmocao;
     private String comentario;
+
+    public String getDataRegistro() {
+        return dataRegistro;
+    }
+
+    public void setDataRegistro(String dataRegistro) {
+        this.dataRegistro = dataRegistro;
+    }
 
     public String getId() {
         return id;

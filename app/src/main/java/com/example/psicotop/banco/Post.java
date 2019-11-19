@@ -9,6 +9,7 @@ import com.example.psicotop.modal.Emocao;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
+import com.example.psicotop.utils.Util;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,6 +43,8 @@ public class Post implements IPost{
     private DatabaseReference psicologoRef;
     private DatabaseReference pacienteRef;
 
+    private final Util util = new Util();
+
     public Usuario getCurrentUserLogged(){
         return currentUserLogged;
     }
@@ -57,6 +60,7 @@ public class Post implements IPost{
     public void registrarEmocao(Emocao e, IPostCallback callback) {
         DatabaseReference emocaoRef = pacienteRef.child(currentUserLogged.getId()).child("Emocoes").push();
         e.setId(emocaoRef.getKey());
+        e.setDataRegistro(util.getDataAtual());
         emocaoRef.setValue(e);
         callback.onLoaded("Registrado!");
     }

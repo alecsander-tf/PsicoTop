@@ -1,5 +1,8 @@
 package com.example.psicotop.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Util {
 
     public boolean verificaCampoNulo (String campo){
@@ -8,6 +11,14 @@ public class Util {
         }
 
         return false;
+    }
+
+    public String getDataAtual(){
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        return formatter.format(date);
+
     }
 
 }

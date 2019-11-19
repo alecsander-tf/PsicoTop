@@ -24,8 +24,6 @@ import java.util.List;
 
 public class MenuActivity extends AppCompatActivity implements MenuContract.View {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
