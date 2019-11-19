@@ -1,4 +1,4 @@
-package com.example.psicotop;
+package com.example.psicotop.mvp.menu.detalhesResumo;
 
 import com.example.psicotop.banco.IPost;
 import com.example.psicotop.banco.Post;

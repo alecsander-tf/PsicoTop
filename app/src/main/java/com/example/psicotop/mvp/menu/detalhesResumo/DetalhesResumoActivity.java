@@ -1,14 +1,12 @@
-package com.example.psicotop;
+package com.example.psicotop.mvp.menu.detalhesResumo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Emocao;
-import com.example.psicotop.mvp.menu.resumo.ResumoFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,6 +48,7 @@ public class DetalhesResumoActivity extends AppCompatActivity implements Detalhe
         RecyclerView recyclerView = findViewById(R.id.emocoesDetalhes_list);
         recyclerView.setAdapter(mListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.custom_line));
 
         presenter = new DetalhesResumoPresenter(this, new Post());
     }

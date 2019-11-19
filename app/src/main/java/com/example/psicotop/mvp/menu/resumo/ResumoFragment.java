@@ -2,11 +2,6 @@ package com.example.psicotop.mvp.menu.resumo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -21,10 +16,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.psicotop.DetalhesResumoActivity;
+import com.example.psicotop.mvp.menu.detalhesResumo.DetalhesResumoActivity;
 import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Emocao;
+import com.example.psicotop.mvp.menu.detalhesResumo.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +60,7 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         mListAdapter = new EmocoesAdapter(new ArrayList<Emocao>());
         recyclerView.setAdapter(mListAdapter);
+        recyclerView.addItemDecoration(new HorizontalSpaceItemDecoration(3));
 
         tvVerDetalhes.setOnClickListener(tvVerDetalhesClick());
 
@@ -132,18 +129,64 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
 
                 Emocao e = mEmocoes.get(position);
 
+                int i = verificaPosicao(mEmocoes, e);
+
                 if (e.getTipoEmocao().equals("Normal")) {
+
+
+
+                    if (i == 9){
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_normal_item));
+                    }else if (i == 0){
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_normal_first_item));
+                    }else if (i == 1){
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_normal_middle_item));
+                    }else {
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_normal_last_item));
+                    }
+
                     holder.diaDaSemana.setText("N");
-                    holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_normal_item));
+
                 } else if (e.getTipoEmocao().equals("Feliz")) {
                     holder.diaDaSemana.setText("F");
-                    holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_feliz_item));
+                    if (i == 9){
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_feliz_item));
+                    }else if (i == 0){
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_feliz_first_item));
+                    }else if (i == 1){
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_feliz_middle_item));
+                    }else {
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_feliz_last_item));
+                    }
                 } else {
                     holder.diaDaSemana.setText("T");
-                    holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_triste_item));
+                    if (i == 9){
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_triste_item));
+                    }else if (i == 0){
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_triste_first_item));
+                    }else if (i == 1){
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_triste_middle_item));
+                    }else {
+                        holder.layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.custom_triste_last_item));
+                    }
                 }
             }
 
+        }
+
+        /**
+         * retorna 0 se é o primeiro, 1 se está no meio, 2 se é o ultimo, 9 se é o único
+         * */
+        private int verificaPosicao(List list, Object object){
+            if (list.get(0).equals(object)){
+                if (list.size() > 1){
+                    return 0;
+                }
+                return 9;
+            }else if (list.get(5).equals(object)){
+                return 2;
+            }
+            return 1;
         }
 
         void replaceData(List<Emocao> emocoes){

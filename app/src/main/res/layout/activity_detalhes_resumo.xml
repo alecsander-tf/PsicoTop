@@ -16,16 +16,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetalhesResumoActivity"
+        tools:context=".mvp.menu.detalhesResumo.DetalhesResumoActivity"
         android:padding="16dp"
         android:background="@color/colorGray">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:background="@drawable/custom_card"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/emocoesDetalhes_list"
