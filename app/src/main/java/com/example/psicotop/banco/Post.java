@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.psicotop.modal.Emocao;
+import com.example.psicotop.modal.Meta;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
@@ -39,6 +40,7 @@ public class Post implements IPost{
     static private List<Usuario> pacientes = new ArrayList<>();
     static private List<Usuario> psicologos = new ArrayList<>();
     static private List<Emocao> listaEmocoes = new ArrayList<>();
+    static private List<Meta> listaMetas = new ArrayList<>();
 
     private DatabaseReference psicologoRef;
     private DatabaseReference pacienteRef;
@@ -47,6 +49,11 @@ public class Post implements IPost{
 
     public Usuario getCurrentUserLogged(){
         return currentUserLogged;
+    }
+
+    @Override
+    public void carregarMetas(IPostListCallback iPostListCallback) {
+
     }
 
     @Override
@@ -220,7 +227,7 @@ public class Post implements IPost{
         DatabaseReference usuarioRefmyRef = myRef.child("Usuario").child("Psicologo");
     }
 
-    private void addListener(final DatabaseReference child){
+    private void addListenerEmocoes(final DatabaseReference child){
         child.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -263,6 +270,7 @@ public class Post implements IPost{
     public void loginUsuario(String email, String senha, final IPostCallback callback){
 
         final DatabaseReference[] child = new DatabaseReference[1];
+        final DatabaseReference[] child2 = new DatabaseReference[1];
         listaEmocoes = new ArrayList<>();
 
         myAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -280,7 +288,9 @@ public class Post implements IPost{
                         if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
                             currentUserLogged = usuario;
                             child[0] = myRef.child("Usuario").child("Paciente").child(currentUserLogged.getId()).child("Emocoes");
-                            addListener(child[0]);
+                            child2[0] = myRef.child("Usuario").child("Paciente").child(currentUserLogged.getId()).child("Metas");
+                            addListenerEmocoes(child[0]);
+                            addListenerMetas(child2[0]);
                         }
                     }
                     callback.onLoaded("");
@@ -294,6 +304,41 @@ public class Post implements IPost{
 
 
 
+    }
+
+    private void addListenerMetas(DatabaseReference databaseReference) {
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Meta meta = dataSnapshot.getValue(Meta.class);
+                if (!listaMetas.contains(meta)){
+                    listaMetas.add(meta);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Meta meta = dataSnapshot.getValue(Meta.class);
+                if (listaMetas.contains(meta)){
+                    listaMetas.remove(meta);
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
 

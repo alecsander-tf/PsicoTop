@@ -19,6 +19,7 @@ public interface IPost {
     }
 
     Usuario getCurrentUserLogged();
+    void carregarMetas(IPostListCallback iPostListCallback);
     void carregarEmocoes(IPostListCallback iPostListCallback);
     void registrarEmocao(Emocao e, IPostCallback callback);
     void alterarPaciente(Paciente p, IPostCallback callback);
