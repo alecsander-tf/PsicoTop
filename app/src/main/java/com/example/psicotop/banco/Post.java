@@ -52,8 +52,10 @@ public class Post implements IPost{
     }
 
     @Override
-    public void carregarMetas(IPostListCallback iPostListCallback) {
-
+    public void carregarMetas(IPostListCallback callback) {
+        if (listaMetas != null){
+            callback.onLoaded(listaMetas);
+        }
     }
 
     @Override

@@ -34,8 +34,8 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
         setSupportActionBar(toolbar);
 
         TabsAdapter adapter = new TabsAdapter( getSupportFragmentManager() );
-        adapter.add( new DiarioFragment() , "Resumo");
-        adapter.add( new ResumoFragment() , "Diário");
+        adapter.add( new DiarioFragment() , "Diário");
+        adapter.add( new ResumoFragment() , "Resumo");
 
         ViewPager viewPager = findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);

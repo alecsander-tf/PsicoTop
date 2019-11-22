@@ -92,12 +92,17 @@ public class EmocoesAdapter extends RecyclerView.Adapter<EmocoesAdapter.ViewHold
      * retorna 0 se é o primeiro, 1 se está no meio, 2 se é o ultimo, 9 se é o único
      * */
     private int verificaPosicao(List list, Object object){
+
+        if (list.lastIndexOf(object) >= 4){
+            return 2;
+        }
+
         if (list.get(0).equals(object)){
             if (list.size() > 1){
                 return 0;
             }
             return 9;
-        }else if (list.get(5).equals(object)){
+        }else if (list.lastIndexOf(object) == list.size() - 1){
             return 2;
         }
         return 1;
@@ -112,10 +117,10 @@ public class EmocoesAdapter extends RecyclerView.Adapter<EmocoesAdapter.ViewHold
     @Override
     public int getItemCount() {
 
-        if (mEmocoes.size() <= 6){
+        if (mEmocoes.size() <= 5){
             return mEmocoes.size();
         }else {
-            return 6;
+            return 5;
         }
     }
 

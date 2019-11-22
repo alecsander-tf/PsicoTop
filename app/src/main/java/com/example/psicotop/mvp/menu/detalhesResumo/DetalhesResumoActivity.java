@@ -100,7 +100,9 @@ public class DetalhesResumoActivity extends AppCompatActivity implements Detalhe
 
         @Override
         public int getItemCount() {
+
             return mEmocoes.size();
+
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {

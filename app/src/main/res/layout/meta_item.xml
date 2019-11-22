@@ -16,12 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
         android:id="@+id/tvTituloMeta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
         android:text="Título da meta"
         android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="@+id/checkBox"
@@ -34,7 +35,6 @@
         android:id="@+id/tvDescricaoMeta"
         android:layout_marginTop="16dp"
         android:text="Descrição da meta"
-        android:textColor="@color/colorBlack"
         app:layout_constraintStart_toStartOf="@+id/tvTituloMeta"
         app:layout_constraintTop_toBottomOf="@+id/tvTituloMeta" />
 

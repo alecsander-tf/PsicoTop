@@ -44,7 +44,6 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
 
     @Override
     public void onResume() {
-        presenter.carregarEmocoes();
         super.onResume();
     }
 
@@ -52,15 +51,20 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_resumo, container, false);
-
-        RecyclerView recyclerView = view.findViewById(R.id.emocoes_list);
         TextView tvVerDetalhes = view.findViewById(R.id.tvVerDetalhes);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        RecyclerView recyclerViewEmocoes = view.findViewById(R.id.emocoes_list);
+        recyclerViewEmocoes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         mListEmocoesAdapter = new EmocoesAdapter(new ArrayList<Emocao>(), getContext());
+        recyclerViewEmocoes.setAdapter(mListEmocoesAdapter);
+        recyclerViewEmocoes.addItemDecoration(new HorizontalSpaceItemDecoration(3));
+
+        RecyclerView recyclerViewMetas = view.findViewById(R.id.metasList);
+        recyclerViewMetas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mListMetasAdapter = new MetaAdapter(new ArrayList<Meta>(), getContext());
-        recyclerView.setAdapter(mListEmocoesAdapter);
-        recyclerView.addItemDecoration(new HorizontalSpaceItemDecoration(3));
+        recyclerViewMetas.setAdapter(mListMetasAdapter);
+        recyclerViewMetas.addItemDecoration(new VerticalSpaceItemDecoration(45));
+
 
         tvVerDetalhes.setOnClickListener(tvVerDetalhesClick());
 
@@ -107,6 +111,7 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser){
+            presenter.carregarMetas();
             presenter.carregarEmocoes();
         }
         super.setUserVisibleHint(isVisibleToUser);

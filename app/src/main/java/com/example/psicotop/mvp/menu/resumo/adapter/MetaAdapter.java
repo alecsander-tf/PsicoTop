@@ -30,6 +30,7 @@ public class MetaAdapter extends RecyclerView.Adapter<MetaAdapter.ViewHolder> {
     public void replaceData(List<Meta> novaLista){
         Collections.reverse(novaLista);
         mMetas = novaLista;
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -54,7 +55,11 @@ public class MetaAdapter extends RecyclerView.Adapter<MetaAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mMetas.size();
+        if (mMetas.size() <= 3){
+            return mMetas.size();
+        }else {
+            return 3;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
