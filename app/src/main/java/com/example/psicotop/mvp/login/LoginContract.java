@@ -7,12 +7,12 @@ public interface LoginContract {
     interface View{
         void carregarActivity(Class<?> arg);
         void carregarMensagem(String msg);
+        void setCarregando(boolean carregando);
     }
 
     interface UserActionsListener{
 
-        void login(Usuario usuario);
-
+        void login(String email, String senha);
         void abrirActivity(Class<?> arg);
     }
 

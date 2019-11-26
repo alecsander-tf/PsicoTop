@@ -1,5 +1,6 @@
 package com.example.psicotop.mvp.login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
+import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Usuario;
 import com.example.psicotop.mvp.registro.RegistroActivity;
 import com.google.firebase.FirebaseApp;
@@ -20,9 +23,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     EditText etEmail;
     EditText etSenha;
+    boolean teste = true;
 
     TextView tvCriarNovaConta;
     Button btnLogin;
+
+    ProgressDialog progDailog;
 
     private LoginContract.UserActionsListener presenter;
 
@@ -30,6 +36,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         FirebaseApp.initializeApp(this);
         bind();
@@ -49,6 +58,17 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         tvCriarNovaConta.setOnClickListener(criarNovaConta());
         btnLogin.setOnClickListener(loginUser());
 
+        progDailog = new ProgressDialog(LoginActivity.this);
+        progDailog.setMessage("Entrando...");
+        progDailog.setIndeterminate(false);
+        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDailog.setCancelable(true);
+
+        if (teste){
+            etEmail.setText("paciente@teste.gmail.com");
+            etSenha.setText("123456");
+        }
+
     }
 
     private View.OnClickListener criarNovaConta(){
@@ -65,20 +85,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             @Override
             public void onClick(View v) {
 
-                presenter.login(criarUsuario());
+                presenter.login(etEmail.getText().toString(), etSenha.getText().toString());
 
             }
         };
-    }
-
-    private Usuario criarUsuario(){
-
-        Usuario usuario = new Usuario();
-
-        usuario.setEmail(etEmail.getText().toString());
-        usuario.setSenha(etSenha.getText().toString());
-
-        return usuario;
     }
 
     @Override
@@ -89,6 +99,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void carregarMensagem(String msg) {
         Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setCarregando(boolean carregando) {
+
+        if (progDailog != null){
+            if (carregando){
+                progDailog.show();
+            }else {
+                progDailog.dismiss();
+            }
+        }
     }
 }
 

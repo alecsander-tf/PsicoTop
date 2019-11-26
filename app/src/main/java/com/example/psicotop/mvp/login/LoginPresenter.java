@@ -1,10 +1,6 @@
 package com.example.psicotop.mvp.login;
 
-import android.content.Intent;
-
 import com.example.psicotop.banco.IPost;
-import com.example.psicotop.banco.Post;
-import com.example.psicotop.modal.Usuario;
 import com.example.psicotop.mvp.menu.MenuActivity;
 
 public class LoginPresenter implements LoginContract.UserActionsListener{
@@ -18,11 +14,13 @@ public class LoginPresenter implements LoginContract.UserActionsListener{
     }
 
     @Override
-    public void login(Usuario usuario) {
+    public void login(String email, String senha) {
 
-        post.loginUsuario(usuario, new IPost.IPostCallback() {
+        loginView.setCarregando(true);
+        post.loginUsuario(email, senha, new IPost.IPostCallback() {
             @Override
             public void onLoaded(String msg) {
+                loginView.setCarregando(false);
                 loginView.carregarActivity(MenuActivity.class);
                 if (!msg.equals("")){
                     loginView.carregarMensagem(msg);
@@ -31,6 +29,8 @@ public class LoginPresenter implements LoginContract.UserActionsListener{
 
             @Override
             public void onError(String msg) {
+
+                loginView.setCarregando(false);
                 loginView.carregarMensagem(msg);
             }
         });

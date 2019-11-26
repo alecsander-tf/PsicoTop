@@ -1,17 +1,14 @@
 package com.example.psicotop.modal;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import java.util.Objects;
 
-public class Usuario {
+public abstract class Usuario {
 
     private String id;
     private String nome;
     private String sobrenome;
     private String email;
     private String senha;
-    private String idade;
-
 
     public Usuario() {
     }
@@ -56,12 +53,16 @@ public class Usuario {
         this.nome = nome;
     }
 
-    public String getIdade() {
-        return idade;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return email.equals(usuario.email);
     }
 
-    public void setIdade(String idade) {
-        this.idade = idade;
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
     }
-
 }
