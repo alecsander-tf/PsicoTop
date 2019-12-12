@@ -252,8 +252,6 @@ public class Post implements IPost{
                 if (!listaEmocoes.contains(e)){
                     listaEmocoes.add(e);
                 }
-
-
             }
 
             @Override
@@ -297,6 +295,7 @@ public class Post implements IPost{
                         if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
                             SingletonUserLogged.setCurrentUserLogged(usuario);
                             currentUserLogged = usuario;
+                            break;
                         }
                     }
 
@@ -308,8 +307,10 @@ public class Post implements IPost{
                             child2[0] = myRef.child("Usuario").child("Paciente").child(currentUserLogged.getId()).child("Metas");
                             addListenerEmocoes(child[0]);
                             addListenerMetas(child2[0]);
+                            break;
                         }
                     }
+                    callback.onLoaded("");
                 }else {
                     callback.onError(task.getException().getMessage());
                 }

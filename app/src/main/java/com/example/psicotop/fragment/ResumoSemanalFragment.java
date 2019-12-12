@@ -1,5 +1,6 @@
 package com.example.psicotop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,14 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.psicotop.R;
+import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Emocao;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import menu.detalhesResumo.DetalhesResumoActivity;
 import menu.resumo.HorizontalSpaceItemDecoration;
 import menu.resumo.adapter.EmocoesAdapter;
 
@@ -24,6 +28,7 @@ public class ResumoSemanalFragment extends Fragment implements ResumoSemanalCont
 
     private ResumoSemanalContract.UserInteraction presenter;
     private EmocoesAdapter mListEmocoesAdapter;
+    private TextView tvVerDetalhes;
 
     public ResumoSemanalFragment() {
     }
@@ -35,6 +40,7 @@ public class ResumoSemanalFragment extends Fragment implements ResumoSemanalCont
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new ResumoSemanalPresenter(this, new Post());
     }
 
     @Override
@@ -48,7 +54,25 @@ public class ResumoSemanalFragment extends Fragment implements ResumoSemanalCont
         recyclerViewEmocoes.setAdapter(mListEmocoesAdapter);
         recyclerViewEmocoes.addItemDecoration(new HorizontalSpaceItemDecoration(3));
 
+        bind(view);
+
+        presenter.carregarEmocoes();
+
         return view;
+    }
+
+    private void bind(View view) {
+        tvVerDetalhes = view.findViewById(R.id.tvVerDetalhes);
+        tvVerDetalhes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirActivity(new Intent(getContext(), DetalhesResumoActivity.class));
+            }
+        });
+    }
+
+    private void abrirActivity(Intent intent){
+        startActivity(intent);
     }
 
     @Override

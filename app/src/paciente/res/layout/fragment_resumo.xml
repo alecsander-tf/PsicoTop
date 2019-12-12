@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray"
-    tools:context="menu.resumo.ResumoFragment"
     android:padding="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +13,6 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:padding="16dp"
             android:id="@+id/resumoSemanalFrame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

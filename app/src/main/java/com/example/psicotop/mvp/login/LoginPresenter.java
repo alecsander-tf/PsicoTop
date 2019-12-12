@@ -23,6 +23,9 @@ public class LoginPresenter implements LoginContract.UserActionsListener{
         post.loginUsuario(email, senha, new IPost.IPostCallback() {
             @Override
             public void onLoaded(String msg) {
+                if (msg != null){
+                    loginView.carregarMensagem(msg);
+                }
                 loginView.setCarregando(false);
                 loginView.carregarActivity(MenuActivity.class);
                 SingletonUserLogged.getInstance();

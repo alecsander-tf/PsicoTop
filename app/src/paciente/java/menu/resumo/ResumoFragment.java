@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.psicotop.fragment.ResumoSemanalFragment;
 import com.example.psicotop.modal.Meta;
 import menu.detalhesResumo.DetalhesResumoActivity;
 import com.example.psicotop.R;
@@ -50,7 +52,6 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_resumo, container, false);
-        TextView tvVerDetalhes = view.findViewById(R.id.tvVerDetalhes);
 
         RecyclerView recyclerViewMetas = view.findViewById(R.id.metasList);
         recyclerViewMetas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -58,19 +59,11 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         recyclerViewMetas.setAdapter(mListMetasAdapter);
         recyclerViewMetas.addItemDecoration(new VerticalSpaceItemDecoration(45));
 
-
-        tvVerDetalhes.setOnClickListener(tvVerDetalhesClick());
+        FragmentTransaction t = getFragmentManager().beginTransaction();
+        t.replace(R.id.resumoSemanalFrame, ResumoSemanalFragment.newInstance());
+        t.commit();
 
         return view;
-    }
-
-    private View.OnClickListener tvVerDetalhesClick(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                abrirActivity(new Intent(getContext(), DetalhesResumoActivity.class));
-            }
-        };
     }
 
     @Override

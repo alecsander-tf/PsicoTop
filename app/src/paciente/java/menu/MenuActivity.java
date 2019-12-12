@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.psicotop.R;
@@ -18,13 +20,13 @@ import configuracoes.ConfiguracoesActivity;
 import menu.diario.DiarioFragment;
 import menu.resumo.ResumoFragment;
 
-import com.example.psicotop.fragment.ResumoSemanalFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuActivity extends AppCompatActivity implements MenuContract.View {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,6 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.resumoSemanalFrame, ResumoSemanalFragment.newInstance()).commit();
     }
 
     @Override
