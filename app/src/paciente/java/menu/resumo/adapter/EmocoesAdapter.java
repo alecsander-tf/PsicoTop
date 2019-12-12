@@ -47,8 +47,6 @@ public class EmocoesAdapter extends RecyclerView.Adapter<EmocoesAdapter.ViewHold
 
             if (e.getTipoEmocao().equals("Normal")) {
 
-
-
                 if (i == 9){
                     holder.layout.setBackground(ContextCompat.getDrawable(mContext, R.drawable.custom_normal_item));
                 }else if (i == 0){
@@ -85,7 +83,6 @@ public class EmocoesAdapter extends RecyclerView.Adapter<EmocoesAdapter.ViewHold
                 }
             }
         }
-
     }
 
     /**

@@ -11,18 +11,11 @@ public interface ResumoContract {
 
     interface View {
         void abrirActivity(Intent intent);
-        void exibirEmocoes(List<Emocao> emocoes);
         void exibirMetas(List<Meta> metas);
         void mostrarMensagem(String msg);
     }
 
     interface UserActionsListener {
-
-        void carregarOutraActivity(Intent intent);
-        void carregarDetalhesEmocoes();
-        void carregarEmocoes();
         void carregarMetas();
-
     }
-
 }

@@ -18,12 +18,12 @@ android {
         }
     }
     flavorDimensions "version"
-    productFlavors{
-        paciente{
+    productFlavors {
+        paciente {
             applicationIdSuffix = ".paciente"
             dimension "version"
         }
-        psicologo{
+        psicologo {
             applicationIdSuffix = ".psicologo"
             dimension "version"
         }

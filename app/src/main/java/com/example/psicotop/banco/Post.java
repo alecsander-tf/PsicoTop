@@ -10,6 +10,7 @@ import com.example.psicotop.modal.Meta;
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
+import com.example.psicotop.utils.SingletonUserLogged;
 import com.example.psicotop.utils.Util;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +38,7 @@ public class Post implements IPost{
     private static ChildEventListener pacienteChildEventListener;
 
     static private Usuario currentUserLogged;
+
     static private List<Paciente> pacientes = new ArrayList<>();
     static private List<Psicologo> psicologos = new ArrayList<>();
     static private List<Emocao> listaEmocoes = new ArrayList<>();
@@ -208,8 +210,6 @@ public class Post implements IPost{
                         usuarioRef.setValue(usuario);
                     }
 
-                    verificarEmail();
-
                     callback.onLoaded("Usuário registrado");
 
                 }else {
@@ -220,6 +220,9 @@ public class Post implements IPost{
         });
     }
 
+    /**
+     * Envia email para usuário, avisando sobre o seu registro na aplicação
+     * */
     private void verificarEmail(){
         FirebaseUser currentUser = myAuth.getCurrentUser();
         currentUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -292,6 +295,7 @@ public class Post implements IPost{
 
                     for (Usuario usuario : psicologos){
                         if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
+                            SingletonUserLogged.setCurrentUserLogged(usuario);
                             currentUserLogged = usuario;
                         }
                     }
@@ -299,16 +303,14 @@ public class Post implements IPost{
                     for (Usuario usuario : pacientes){
                         if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
                             currentUserLogged = usuario;
+                            SingletonUserLogged.setCurrentUserLogged(usuario);
                             child[0] = myRef.child("Usuario").child("Paciente").child(currentUserLogged.getId()).child("Emocoes");
                             child2[0] = myRef.child("Usuario").child("Paciente").child(currentUserLogged.getId()).child("Metas");
                             addListenerEmocoes(child[0]);
                             addListenerMetas(child2[0]);
                         }
                     }
-                    callback.onLoaded("");
                 }else {
-                    Log.d(TAG, task.getException().getMessage());
-
                     callback.onError(task.getException().getMessage());
                 }
             }

@@ -27,7 +27,6 @@ import java.util.List;
 public class ResumoFragment extends Fragment implements ResumoContract.View{
 
     private ResumoContract.UserActionsListener presenter;
-    private EmocoesAdapter mListEmocoesAdapter;
     private MetaAdapter mListMetasAdapter;
 
     public ResumoFragment() {
@@ -52,12 +51,6 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
 
         View view = inflater.inflate(R.layout.fragment_resumo, container, false);
         TextView tvVerDetalhes = view.findViewById(R.id.tvVerDetalhes);
-
-        RecyclerView recyclerViewEmocoes = view.findViewById(R.id.emocoes_list);
-        recyclerViewEmocoes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        mListEmocoesAdapter = new EmocoesAdapter(new ArrayList<Emocao>(), getContext());
-        recyclerViewEmocoes.setAdapter(mListEmocoesAdapter);
-        recyclerViewEmocoes.addItemDecoration(new HorizontalSpaceItemDecoration(3));
 
         RecyclerView recyclerViewMetas = view.findViewById(R.id.metasList);
         recyclerViewMetas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -88,14 +81,6 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
     }
 
     @Override
-    public void exibirEmocoes(List<Emocao> emocoes) {
-
-        if (emocoes != null && emocoes.size() > 0){
-            mListEmocoesAdapter.replaceData(emocoes);
-        }
-    }
-
-    @Override
     public void exibirMetas(List<Meta> metas) {
 
         if (metas != null && metas.size() > 0){
@@ -112,7 +97,6 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser){
             presenter.carregarMetas();
-            presenter.carregarEmocoes();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }

@@ -19,41 +19,6 @@ public class ResumoPresenter implements ResumoContract.UserActionsListener {
         this.post = post;
     }
 
-
-    @Override
-    public void carregarOutraActivity(Intent intent) {
-
-    }
-
-    @Override
-    public void carregarDetalhesEmocoes() {
-
-    }
-
-    @Override
-    public void carregarEmocoes() {
-
-        post.carregarEmocoes(new IPost.IPostListCallback() {
-            @Override
-            public void onLoaded(List<?> list) {
-                List<Emocao> listaEmocoes = new ArrayList<>();
-
-                for (Object object : list){
-                    if (object instanceof Emocao){
-                        listaEmocoes.add((Emocao) object);
-                    }
-                }
-
-                view.exibirEmocoes(listaEmocoes);
-            }
-
-            @Override
-            public void onError(String msg) {
-                view.mostrarMensagem(msg);
-            }
-        });
-    }
-
     @Override
     public void carregarMetas() {
 

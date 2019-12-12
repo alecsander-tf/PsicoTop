@@ -1,6 +1,8 @@
 package com.example.psicotop.mvp.login;
 
 import com.example.psicotop.banco.IPost;
+import com.example.psicotop.utils.SingletonUserLogged;
+
 import menu.MenuActivity;
 
 public class LoginPresenter implements LoginContract.UserActionsListener{
@@ -11,6 +13,7 @@ public class LoginPresenter implements LoginContract.UserActionsListener{
     public LoginPresenter(IPost p, LoginContract.View view){
         post = p;
         loginView = view;
+        SingletonUserLogged.removeInstance();
     }
 
     @Override
@@ -22,9 +25,7 @@ public class LoginPresenter implements LoginContract.UserActionsListener{
             public void onLoaded(String msg) {
                 loginView.setCarregando(false);
                 loginView.carregarActivity(MenuActivity.class);
-                if (!msg.equals("")){
-                    loginView.carregarMensagem(msg);
-                }
+                SingletonUserLogged.getInstance();
             }
 
             @Override
