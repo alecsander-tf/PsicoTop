@@ -37,8 +37,8 @@ public class Post implements IPost{
     private static ChildEventListener pacienteChildEventListener;
 
     static private Usuario currentUserLogged;
-    static private List<Usuario> pacientes = new ArrayList<>();
-    static private List<Usuario> psicologos = new ArrayList<>();
+    static private List<Paciente> pacientes = new ArrayList<>();
+    static private List<Psicologo> psicologos = new ArrayList<>();
     static private List<Emocao> listaEmocoes = new ArrayList<>();
     static private List<Meta> listaMetas = new ArrayList<>();
 
@@ -81,6 +81,20 @@ public class Post implements IPost{
         callback.onLoaded("Sucesso");
     }
 
+    @Override
+    public void carregarPacientes(Psicologo psicologo, IPostListCallback callback) {
+
+        List<Paciente> pacientesReturn = new ArrayList<>();
+
+        for (Paciente p : pacientes) {
+            if (p.getEmailPsicologo().equals(psicologo.getEmail())){
+                pacientesReturn.add(p);
+            }
+        }
+
+        callback.onLoaded(pacientesReturn);
+    }
+
     public Post(){
 
         mDatabase = FirebaseDatabase.getInstance();
@@ -96,7 +110,7 @@ public class Post implements IPost{
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                    Usuario u = dataSnapshot.getValue(Paciente.class);
+                    Paciente u = dataSnapshot.getValue(Paciente.class);
 
                     if (!pacientes.contains(u)) {
                         pacientes.add(u);
@@ -131,12 +145,11 @@ public class Post implements IPost{
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                    Usuario u = dataSnapshot.getValue(Psicologo.class);
+                    Psicologo u = dataSnapshot.getValue(Psicologo.class);
 
                     if (!psicologos.contains(u)) {
                         psicologos.add(u);
                     }
-
                 }
 
                 @Override
@@ -145,7 +158,6 @@ public class Post implements IPost{
                     if (!psicologos.contains(dataSnapshot.getValue(Psicologo.class))) {
                         psicologos.add(dataSnapshot.getValue(Psicologo.class));
                     }
-
                 }
 
                 @Override
@@ -190,12 +202,10 @@ public class Post implements IPost{
                         DatabaseReference usuarioRef = myRef.child("Usuario").child("Paciente").push();
                         usuario.setId(usuarioRef.getKey());
                         usuarioRef.setValue(usuario);
-                        pacientes.add(usuario);
                     }else {
                         DatabaseReference usuarioRef = myRef.child("Usuario").child("Psicologo").push();
                         usuario.setId(usuarioRef.getKey());
                         usuarioRef.setValue(usuario);
-                        psicologos.add(usuario);
                     }
 
                     verificarEmail();

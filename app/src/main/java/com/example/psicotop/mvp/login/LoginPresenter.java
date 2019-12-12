@@ -1,7 +1,7 @@
 package com.example.psicotop.mvp.login;
 
 import com.example.psicotop.banco.IPost;
-import com.example.psicotop.mvp.menu.MenuActivity;
+import menu.MenuActivity;
 
 public class LoginPresenter implements LoginContract.UserActionsListener{
 

@@ -2,6 +2,7 @@ package com.example.psicotop.banco;
 
 import com.example.psicotop.modal.Emocao;
 import com.example.psicotop.modal.Paciente;
+import com.example.psicotop.modal.Psicologo;
 import com.example.psicotop.modal.Usuario;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public interface IPost {
     void carregarEmocoes(IPostListCallback iPostListCallback);
     void registrarEmocao(Emocao e, IPostCallback callback);
     void alterarPaciente(Paciente p, IPostCallback callback);
+    void carregarPacientes(Psicologo psicologo, IPostListCallback callback);
     boolean psicologoExiste(String email);
     void verificarUsuario(IPostListCallback callback);
     void loginUsuario(String email, String senha, IPostCallback callback);
