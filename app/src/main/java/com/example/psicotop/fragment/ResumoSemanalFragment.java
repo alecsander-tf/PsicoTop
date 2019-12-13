@@ -14,15 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.psicotop.R;
+import com.example.psicotop.adapter.EmocoesAdapter;
+import com.example.psicotop.adapter.HorizontalSpaceItemDecoration;
 import com.example.psicotop.banco.Post;
+import com.example.psicotop.detalhesResumo.DetalhesResumoActivity;
 import com.example.psicotop.modal.Emocao;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import menu.detalhesResumo.DetalhesResumoActivity;
-import menu.resumo.HorizontalSpaceItemDecoration;
-import menu.resumo.adapter.EmocoesAdapter;
 
 public class ResumoSemanalFragment extends Fragment implements ResumoSemanalContract.View {
 

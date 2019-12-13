@@ -1,4 +1,4 @@
-package menu.detalhesResumo;
+package com.example.psicotop.detalhesResumo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

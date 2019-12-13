@@ -25,6 +25,7 @@ public interface IPost {
     void registrarEmocao(Emocao e, IPostCallback callback);
     void alterarPaciente(Paciente p, IPostCallback callback);
     void carregarPacientes(Psicologo psicologo, IPostListCallback callback);
+    void associarEmocoesPaciente(Paciente p, IPostListCallback callback);
     boolean psicologoExiste(String email);
     void verificarUsuario(IPostListCallback callback);
     void loginUsuario(String email, String senha, IPostCallback callback);

@@ -280,6 +280,18 @@ public class Post implements IPost{
         });
     }
 
+    @Override
+    public void associarEmocoesPaciente(Paciente paciente, IPostListCallback callback){
+        try {
+            DatabaseReference child = myRef.child("Usuario").child("Paciente").child(paciente.getId()).child("Emocoes");
+            addListenerEmocoes(child);
+        }catch (Exception e){
+            callback.onError(e.getMessage());
+        }
+
+    }
+
+    @Override
     public void loginUsuario(String email, String senha, final IPostCallback callback){
 
         final DatabaseReference[] child = new DatabaseReference[1];

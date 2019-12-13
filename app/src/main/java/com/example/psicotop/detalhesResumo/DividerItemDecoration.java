@@ -1,4 +1,4 @@
-package menu.detalhesResumo;
+package com.example.psicotop.detalhesResumo;
 
 import android.content.Context;
 import android.content.res.TypedArray;

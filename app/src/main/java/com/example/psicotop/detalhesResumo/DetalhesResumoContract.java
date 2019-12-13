@@ -1,4 +1,4 @@
-package menu.detalhesResumo;
+package com.example.psicotop.detalhesResumo;
 
 import com.example.psicotop.modal.Emocao;
 

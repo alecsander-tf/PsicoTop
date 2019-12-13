@@ -32,7 +32,6 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        DiarioFragment diarioFragment = new DiarioFragment();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
