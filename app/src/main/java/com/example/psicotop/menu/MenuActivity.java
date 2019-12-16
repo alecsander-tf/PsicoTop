@@ -1,4 +1,4 @@
-package menu;
+package com.example.psicotop.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,14 +12,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.psicotop.R;
-import configuracoes.ConfiguracoesActivity;
-import menu.diario.DiarioFragment;
-import menu.resumo.ResumoFragment;
 
+import com.example.psicotop.configuracoes.ConfiguracoesActivity;
+import com.example.psicotop.menu.diario.DiarioFragment;
+import com.example.psicotop.menu.resumo.ResumoFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;

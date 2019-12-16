@@ -1,4 +1,4 @@
-package menu;
+package com.example.psicotop.menu;
 
 public interface MenuContract {
 

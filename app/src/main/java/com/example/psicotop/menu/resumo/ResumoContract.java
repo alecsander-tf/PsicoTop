@@ -1,4 +1,4 @@
-package menu.resumo;
+package com.example.psicotop.menu.resumo;
 
 import android.content.Intent;
 

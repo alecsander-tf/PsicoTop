@@ -1,4 +1,4 @@
-package menu.diario;
+package com.example.psicotop.menu.diario;
 
 import com.example.psicotop.modal.Emocao;
 import com.example.psicotop.modal.Usuario;

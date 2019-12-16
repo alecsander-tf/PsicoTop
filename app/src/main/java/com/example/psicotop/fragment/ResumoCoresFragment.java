@@ -23,29 +23,29 @@ import com.example.psicotop.modal.Emocao;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResumoSemanalFragment extends Fragment implements ResumoSemanalContract.View {
+public class ResumoCoresFragment extends Fragment implements ResumoCoresContract.View {
 
-    private ResumoSemanalContract.UserInteraction presenter;
+    private ResumoCoresContract.UserInteraction presenter;
     private EmocoesAdapter mListEmocoesAdapter;
     private TextView tvVerDetalhes;
 
-    public ResumoSemanalFragment() {
+    public ResumoCoresFragment() {
     }
 
-    public static ResumoSemanalFragment newInstance() {
-        return new ResumoSemanalFragment();
+    public static ResumoCoresFragment newInstance() {
+        return new ResumoCoresFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new ResumoSemanalPresenter(this, new Post());
+        presenter = new ResumoCoresPresenter(this, new Post());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_resumo_semanal, container, false);
+        View view = inflater.inflate(R.layout.fragment_resumo_cores, container, false);
 
         RecyclerView recyclerViewEmocoes = view.findViewById(R.id.emocoes_list);
         recyclerViewEmocoes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -54,8 +54,6 @@ public class ResumoSemanalFragment extends Fragment implements ResumoSemanalCont
         recyclerViewEmocoes.addItemDecoration(new HorizontalSpaceItemDecoration(3));
 
         bind(view);
-
-        presenter.carregarEmocoes();
 
         return view;
     }
@@ -76,20 +74,16 @@ public class ResumoSemanalFragment extends Fragment implements ResumoSemanalCont
         startActivity(intent);
     }
 
+    public void atualizarEmocoes(){
+        presenter.carregarEmocoes();
+    }
+
     @Override
     public void exibirEmocoes(List<Emocao> emocoes) {
 
         if (emocoes != null && emocoes.size() > 0){
             mListEmocoesAdapter.replaceData(emocoes);
         }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser){
-            presenter.carregarEmocoes();
-        }
-        super.setUserVisibleHint(isVisibleToUser);
     }
 
     @Override

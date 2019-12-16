@@ -1,4 +1,4 @@
-package menu.resumo;
+package com.example.psicotop.menu.resumo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,17 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.psicotop.fragment.ResumoSemanalFragment;
+import com.example.psicotop.fragment.ResumoCoresFragment;
+import com.example.psicotop.menu.resumo.adapter.MetaAdapter;
 import com.example.psicotop.modal.Meta;
-import menu.detalhesResumo.DetalhesResumoActivity;
 import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
-import com.example.psicotop.modal.Emocao;
-import menu.resumo.adapter.EmocoesAdapter;
-import menu.resumo.adapter.MetaAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +26,8 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
 
     private ResumoContract.UserActionsListener presenter;
     private MetaAdapter mListMetasAdapter;
+
+    private ResumoCoresFragment resumoCoresFragment;
 
     public ResumoFragment() {
 
@@ -60,7 +58,10 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
         recyclerViewMetas.addItemDecoration(new VerticalSpaceItemDecoration(45));
 
         FragmentTransaction t = getFragmentManager().beginTransaction();
-        t.replace(R.id.resumoSemanalFrame, ResumoSemanalFragment.newInstance());
+
+        resumoCoresFragment = ResumoCoresFragment.newInstance();
+
+        t.replace(R.id.resumoSemanalFrame, resumoCoresFragment);
         t.commit();
 
         return view;
@@ -91,6 +92,7 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser){
             presenter.carregarMetas();
+            resumoCoresFragment.atualizarEmocoes();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }

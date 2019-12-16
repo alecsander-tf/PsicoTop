@@ -1,4 +1,4 @@
-package menu.diario;
+package com.example.psicotop.menu.diario;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;

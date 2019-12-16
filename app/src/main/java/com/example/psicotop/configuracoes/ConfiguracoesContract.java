@@ -1,4 +1,4 @@
-package configuracoes;
+package com.example.psicotop.configuracoes;
 
 import com.example.psicotop.modal.Paciente;
 import com.example.psicotop.modal.Usuario;

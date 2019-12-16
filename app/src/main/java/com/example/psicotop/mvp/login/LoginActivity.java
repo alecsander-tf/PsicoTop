@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         progDailog.setCancelable(true);
 
         if (teste){
-            etEmail.setText("atalector@gmail.com");
+            etEmail.setText("paciente@teste.gmail.com");
             etSenha.setText("123456");
         }
 

@@ -1,4 +1,4 @@
-package configuracoes;
+package com.example.psicotop.configuracoes;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

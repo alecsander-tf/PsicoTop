@@ -6,12 +6,12 @@ import com.example.psicotop.modal.Emocao;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResumoSemanalPresenter implements ResumoSemanalContract.UserInteraction {
+public class ResumoCoresPresenter implements ResumoCoresContract.UserInteraction {
 
-    private ResumoSemanalContract.View view;
+    private ResumoCoresContract.View view;
     private IPost post;
 
-    public ResumoSemanalPresenter(ResumoSemanalContract.View view, IPost post) {
+    public ResumoCoresPresenter(ResumoCoresContract.View view, IPost post) {
         this.view = view;
         this.post = post;
     }

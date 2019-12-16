@@ -1,4 +1,4 @@
-package menu.resumo.adapter;
+package com.example.psicotop.menu.resumo.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

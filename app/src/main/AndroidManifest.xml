@@ -17,21 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="menu.detalhesResumo.DetalhesResumoActivity"
-            android:parentActivityName="menu.MenuActivity" />
-        <activity
-            android:name="configuracoes.ConfiguracoesActivity"
-            android:parentActivityName="menu.MenuActivity" />
         <activity android:name=".mvp.login.LoginActivity">
 
         </activity>
         <activity
-            android:name="menu.MenuActivity"
-            android:theme="@style/CustomNoActionBar" />
-        <activity
             android:name=".mvp.registro.RegistroActivity"
             android:parentActivityName=".mvp.login.LoginActivity" />
+        <activity android:name=".detalhesResumo.DetalhesResumoActivity" />
+        <activity android:name=".configuracoes.ConfiguracoesActivity" />
+        <activity android:name=".menu.MenuActivity" />
     </application>
 
 </manifest>
