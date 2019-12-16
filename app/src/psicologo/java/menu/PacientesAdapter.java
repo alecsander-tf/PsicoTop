@@ -35,7 +35,7 @@ public class PacientesAdapter extends RecyclerView.Adapter<PacientesAdapter.View
         LayoutInflater inflater = LayoutInflater.from(context);
         View noteView = inflater.inflate(R.layout.paciente_item, parent, false);
 
-        return new ViewHolder(noteView, mItemListener);
+        return new ViewHolder(noteView);
     }
 
     @Override
@@ -45,6 +45,7 @@ public class PacientesAdapter extends RecyclerView.Adapter<PacientesAdapter.View
         holder.nomePaciente.setText(paciente.getNome() + " " + paciente.getSobrenome());
         holder.emailPaciente.setText(paciente.getEmail());
 
+        holder.bind(mItemListener, paciente);
     }
 
     private Paciente getItem(int position){
@@ -56,22 +57,25 @@ public class PacientesAdapter extends RecyclerView.Adapter<PacientesAdapter.View
         return mPacientes.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView nomePaciente;
         private TextView emailPaciente;
-        private ItemListener mItemListener;
 
-        ViewHolder(View itemView, ItemListener itemListener) {
+        ViewHolder(View itemView) {
             super(itemView);
-            mItemListener = itemListener;
             nomePaciente = itemView.findViewById(R.id.tvNomePaciente);
             emailPaciente = itemView.findViewById(R.id.tvEmailPaciente);
         }
 
-        @Override
-        public void onClick(View v) {
-            mItemListener.pacienteClick(getItem(getAdapterPosition()));
+        public void bind(final ItemListener mItemListener, final Paciente paciente) {
+            itemView.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    mItemListener.pacienteClick(paciente);
+                }
+            });
         }
     }
 

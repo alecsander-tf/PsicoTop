@@ -71,6 +71,8 @@ public class ResumoSemanalFragment extends Fragment implements ResumoSemanalCont
     }
 
     private void abrirActivity(Intent intent){
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

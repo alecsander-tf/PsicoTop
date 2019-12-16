@@ -134,7 +134,10 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
 
     @Override
     public void carregarActivity(Class<?> arg) {
-        startActivity(new Intent(this, arg));
+        Intent intent = new Intent(this, arg);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override

@@ -68,7 +68,8 @@ public class ResumoFragment extends Fragment implements ResumoContract.View{
 
     @Override
     public void abrirActivity(Intent intent) {
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 
     }

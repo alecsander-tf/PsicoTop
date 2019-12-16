@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         progDailog.setCancelable(true);
 
         if (teste){
-            etEmail.setText("paciente@teste.gmail.com");
+            etEmail.setText("atalector@gmail.com");
             etSenha.setText("123456");
         }
 
@@ -93,7 +93,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void carregarActivity(Class<?> arg) {
-        startActivity(new Intent(getApplicationContext(), arg));
+        Intent intent = new Intent(getApplicationContext(), arg);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override

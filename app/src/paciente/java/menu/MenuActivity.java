@@ -69,7 +69,10 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
 
     @Override
     public void carregarActivity(Class<?> arg) {
-        startActivity(new Intent(getApplicationContext(), arg));
+        Intent intent = new Intent(getApplicationContext(), arg);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     class TabsAdapter extends FragmentPagerAdapter {

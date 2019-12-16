@@ -11,17 +11,20 @@
         android:supportsRtl="true"
         android:theme="@style/CustomNoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="menu.detalhesResumo.DetalhesResumoActivity"
+        <activity android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="menu.detalhesResumo.DetalhesResumoActivity"
             android:parentActivityName="menu.MenuActivity" />
         <activity
             android:name="configuracoes.ConfiguracoesActivity"
             android:parentActivityName="menu.MenuActivity" />
         <activity android:name=".mvp.login.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="menu.MenuActivity"

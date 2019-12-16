@@ -2,6 +2,7 @@ package menu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,6 +64,9 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
 
     @Override
     public void carregarActivity(Class<?> arg) {
-        startActivity(new Intent(getApplicationContext(), arg));
+        Intent intent = new Intent(getApplicationContext(), arg);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
