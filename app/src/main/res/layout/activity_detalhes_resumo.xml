@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         tools:context="menu.detalhesResumo.DetalhesResumoActivity"
         android:padding="16dp"
-        android:background="@color/colorGray">
+        android:background="@color/colorGrey">
 
         <LinearLayout
             android:layout_width="match_parent"
