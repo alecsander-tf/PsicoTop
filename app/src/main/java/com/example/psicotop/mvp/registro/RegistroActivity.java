@@ -4,10 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.psicotop.R;
 import com.example.psicotop.banco.Post;
 import com.example.psicotop.modal.Paciente;
-import com.example.psicotop.modal.Psicologo;
-import com.example.psicotop.modal.Usuario;
-import com.example.psicotop.mvp.login.LoginActivity;
 import com.example.psicotop.utils.Util;
 
 public class RegistroActivity extends AppCompatActivity implements RegistroContract.View{
@@ -31,11 +26,8 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
     EditText etConfirmaSenha;
     EditText etPsicologo;
     TextView tvPsicologo;
-    Spinner spinnerUsuario;
 
     ProgressDialog progDailog;
-
-    int itemSpinner = 0;
 
     RegistroContract.UserActionsListener presenter;
 
@@ -55,7 +47,6 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
         view = this;
         presenter = new RegistroPresenter(this, new Post());
 
-        spinnerUsuario = findViewById(R.id.spinnerUsuario);
         etEmail = findViewById(R.id.etEmail);
         etSenha = findViewById(R.id.etSenha);
         etNome = findViewById(R.id.etNome);
@@ -66,7 +57,6 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
 
         btnRegistrar = findViewById(R.id.btnRegistrar);
 
-        spinnerUsuario.setOnItemSelectedListener(mudarItemSelecionado());
         btnRegistrar.setOnClickListener(registrarUsuario());
 
         progDailog = new ProgressDialog(RegistroActivity.this);
@@ -77,44 +67,17 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
 
     }
 
-    private AdapterView.OnItemSelectedListener mudarItemSelecionado(){
-        return new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 1){
-                    itemSpinner = 1;
-                    etPsicologo.setVisibility(View.GONE);
-                    tvPsicologo.setVisibility(View.GONE);
-                }else {
-                    itemSpinner = 0;
-                    etPsicologo.setVisibility(View.VISIBLE);
-                    tvPsicologo.setVisibility(View.VISIBLE);
-                }
-            }
+    private Paciente criarUsuario(){
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        Paciente paciente = new Paciente();
 
-            }
-        };
-    }
+        paciente.setEmail(etEmail.getText().toString());
+        paciente.setSenha(etSenha.getText().toString());
+        paciente.setNome(etNome.getText().toString());
+        paciente.setSobrenome(etSobrenome.getText().toString());
+        paciente.setEmailPsicologo(etPsicologo.getText().toString());
 
-    private Usuario criarUsuario(){
-
-        Usuario usuario;
-
-        if (spinnerUsuario.getSelectedItem().toString().equals("Paciente")){
-            usuario = new Paciente(etPsicologo.getText().toString());
-        }else {
-            usuario = new Psicologo();
-        }
-
-        usuario.setEmail(etEmail.getText().toString());
-        usuario.setSenha(etSenha.getText().toString());
-        usuario.setNome(etNome.getText().toString());
-        usuario.setSobrenome(etSobrenome.getText().toString());
-
-        return usuario;
+        return paciente;
     }
 
     public View.OnClickListener registrarUsuario(){
@@ -122,7 +85,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
             @Override
             public void onClick(View v) {
                 if(!camposInvalidos()){
-                    if (!presenter.psicologoExiste(etPsicologo.getText().toString()) && itemSpinner == 0){
+                    if (!presenter.psicologoExiste(etPsicologo.getText().toString())){
                         view.carregarMensagem("Psicólogo não existe");
                     }else {
                         presenter.registrarUsuario(criarUsuario());
@@ -176,13 +139,9 @@ public class RegistroActivity extends AppCompatActivity implements RegistroContr
         }else if (!etSenha.getText().toString().equals(etConfirmaSenha.getText().toString())){
             msg = "Campos de Senha e Confirmação não são iguais";
             status = true;
-        }
-
-        if (itemSpinner == 0){
-            if (util.verificaCampoNulo(etPsicologo.getText().toString())){
-                msg = "Campo de Psicólogo vazio";
-                status = true;
-            }
+        }else if (util.verificaCampoNulo(etPsicologo.getText().toString())){
+            msg = "Campo de Psicólogo vazio";
+            status = true;
         }
 
         if (status){

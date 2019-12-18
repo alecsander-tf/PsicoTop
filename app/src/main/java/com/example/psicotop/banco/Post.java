@@ -303,14 +303,6 @@ public class Post implements IPost{
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
 
-                    for (Usuario usuario : psicologos){
-                        if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
-                            SingletonUserLogged.setCurrentUserLogged(usuario);
-                            currentUserLogged = usuario;
-                            break;
-                        }
-                    }
-
                     for (Usuario usuario : pacientes){
                         if (usuario.getEmail().equals(myAuth.getCurrentUser().getEmail())){
                             currentUserLogged = usuario;
@@ -319,10 +311,12 @@ public class Post implements IPost{
                             child2[0] = myRef.child("Usuario").child("Paciente").child(currentUserLogged.getId()).child("Metas");
                             addListenerEmocoes(child[0]);
                             addListenerMetas(child2[0]);
-                            break;
+                            callback.onLoaded("");
+                            return;
                         }
                     }
-                    callback.onLoaded("");
+                    callback.onError("Usuário ou senha inválidos");
+
                 }else {
                     callback.onError(task.getException().getMessage());
                 }
