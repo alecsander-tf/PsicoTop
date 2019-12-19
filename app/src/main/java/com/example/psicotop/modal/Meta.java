@@ -6,7 +6,7 @@ public class Meta {
 
     private String titulo;
     private String descricao;
-    private String concluida;
+    private boolean concluida;
     private String id;
 
     @Override
@@ -44,13 +44,5 @@ public class Meta {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public String getConcluida() {
-        return concluida;
-    }
-
-    public void setConcluida(String concluida) {
-        this.concluida = concluida;
     }
 }
