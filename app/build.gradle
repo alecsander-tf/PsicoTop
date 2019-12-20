@@ -17,17 +17,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    flavorDimensions "version"
-    productFlavors {
-        paciente {
-            applicationIdSuffix = ".paciente"
-            dimension "version"
-        }
-        psicologo {
-            applicationIdSuffix = ".psicologo"
-            dimension "version"
-        }
-    }
 }
 
 dependencies {
